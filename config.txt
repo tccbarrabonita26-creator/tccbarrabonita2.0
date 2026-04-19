@@ -1,0 +1,2 @@
+git config --global user.name TCC Barra Bonita Tour
+git config --global user.email tccbarrabonita26@gmail.com
