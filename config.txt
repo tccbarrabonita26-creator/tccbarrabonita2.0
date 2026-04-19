@@ -6,5 +6,3 @@ dotnet add package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 dotnet add package Microsoft.AspNetCore.StaticFiles
 dotnet add package Microsoft.AspNetCore.Mvc.ViewFeatures
 dotnet add package System.Text.Jsonla
-
-oi
