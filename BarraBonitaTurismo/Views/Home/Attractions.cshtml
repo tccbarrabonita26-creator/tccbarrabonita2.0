@@ -1,0 +1,87 @@
+@model List<BarraBonitaTurismo.Models.Attraction>
+@{
+    ViewData["Title"] = "Atrações Turísticas";
+    var categories = ViewBag.Categories as List<string>;
+    var currentCategory = ViewBag.CurrentCategory as string;
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4">Atrações Turísticas</h1>
+    
+    <!-- Filtros -->
+    <div class="row mb-4">
+        <div class="col-md-8 mx-auto">
+            <div class="btn-group w-100" role="group">
+                <a href="@Url.Action("Attractions", new { category = "" })" 
+                   class="btn @(string.IsNullOrEmpty(currentCategory) ? "btn-primary" : "btn-outline-primary")">
+                    Todas
+                </a>
+                @foreach (var cat in categories)
+                {
+                    <a href="@Url.Action("Attractions", new { category = cat })" 
+                       class="btn @(currentCategory == cat ? "btn-primary" : "btn-outline-primary")">
+                        @cat
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Grid de Atrações -->
+    <div class="row">
+        @foreach (var attraction in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 attraction-card">
+                    <img src="@attraction.ImageUrl" class="card-img-top" alt="@attraction.Name" style="height: 250px; object-fit: cover;">
+                    <div class="card-body">
+                        <span class="badge bg-primary mb-2">@attraction.Category</span>
+                        <h5 class="card-title">@attraction.Name</h5>
+                        <p class="card-text">@attraction.Description.Substring(0, Math.Min(120, attraction.Description.Length))...</p>
+                        <button class="btn btn-primary btn-sm" onclick="showAttractionDetails(@attraction.Id)">
+                            <i class="fas fa-info-circle"></i> Ver detalhes
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Modal (mesmo do Index) -->
+<div class="modal fade" id="attractionModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Detalhes da Atração</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showAttractionDetails(id) {
+            $.get('@Url.Action("GetAttractionDetail", "Home")', { id: id }, function(data) {
+                var modalBody = `
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img src="${data.imageUrl}" class="img-fluid rounded" alt="${data.name}">
+                        </div>
+                        <div class="col-md-6">
+                            <h4>${data.name}</h4>
+                            <p>${data.description}</p>
+                            <p><strong><i class="fas fa-map-marker-alt"></i> Endereço:</strong> ${data.address}</p>
+                            <p><strong><i class="fas fa-clock"></i> Horários:</strong> ${data.schedule}</p>
+                            ${data.funFact ? `<p><strong><i class="fas fa-lightbulb"></i> Sabia que?</strong> ${data.funFact}</p>` : ''}
+                        </div>
+                    </div>
+                `;
+                $('#modalBody').html(modalBody);
+                $('#attractionModal').modal('show');
+            });
+        }
+    </script>
+}

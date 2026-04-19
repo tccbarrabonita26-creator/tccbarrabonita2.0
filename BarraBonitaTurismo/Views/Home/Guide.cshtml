@@ -1,0 +1,67 @@
+@model List<BarraBonitaTurismo.Models.GuideItem>
+@{
+    ViewData["Title"] = "Guia Turístico - " + ViewBag.CurrentType;
+}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Barra Bonita</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950">
+    <div class="max-w-7xl mx-auto px-6 py-32">
+        <div class="text-center mb-16">
+            <h1 class="text-5xl font-display font-bold dark:text-white mb-4">
+                Guia de @(ViewBag.CurrentType == "Hospedagem" ? "Hospedagem" : ViewBag.CurrentType == "Gastronomia" ? "Gastronomia" : "Atividades")
+            </h1>
+            <div class="w-24 h-2 bg-primary mx-auto rounded-full"></div>
+        </div>
+        
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            @foreach (var item in Model)
+            {
+                <div class="bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden shadow-lg hover:shadow-xl transition-all">
+                    <img src="@item.ImageUrl" alt="@item.Name" class="w-full h-64 object-cover">
+                    <div class="p-8">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-2xl font-bold dark:text-white">@item.Name</h3>
+                            <div class="flex text-yellow-400">
+                                @for (int i = 0; i < item.Rating; i++)
+                                {
+                                    <span>★</span>
+                                }
+                            </div>
+                        </div>
+                        <p class="text-slate-600 dark:text-slate-400 mb-4">@item.Description</p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400">
+                            <span class="material-symbols-outlined inline-block text-sm align-middle mr-1">location_on</span>
+                            @item.Address
+                        </p>
+                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">
+                            <span class="material-symbols-outlined inline-block text-sm align-middle mr-1">phone</span>
+                            @item.Phone
+                        </p>
+                        @if (!string.IsNullOrEmpty(item.Website))
+                        {
+                            <a href="http://@item.Website" target="_blank" class="inline-block mt-4 text-primary hover:underline">
+                                Visitar website →
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        
+        <div class="text-center mt-12">
+            <a href="/#guia" class="inline-flex items-center gap-2 text-primary hover:gap-4 transition-all">
+                ← Voltar para o Guia Principal
+            </a>
+        </div>
+    </div>
+</body>
+</html>

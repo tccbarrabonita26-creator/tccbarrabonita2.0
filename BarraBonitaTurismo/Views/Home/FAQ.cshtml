@@ -1,0 +1,37 @@
+@model List<BarraBonitaTurismo.Models.FAQ>
+@{
+    ViewData["Title"] = "Perguntas Frequentes";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-4">Perguntas Frequentes</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="accordion" id="accordionFAQ">
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var faq = Model[i];
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button @(i > 0 ? "collapsed" : "")" type="button" 
+                                    data-bs-toggle="collapse" data-bs-target="#collapse@(i)">
+                                @faq.Question
+                            </button>
+                        </h2>
+                        <div id="collapse@(i)" class="accordion-collapse collapse @(i == 0 ? "show" : "")" 
+                             data-bs-parent="#accordionFAQ">
+                            <div class="accordion-body">
+                                @faq.Answer
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <div class="text-center mt-5">
+        <p>Ainda tem dúvidas? <a href="@Url.Action("Contact", "Home")">Entre em contato conosco!</a></p>
+    </div>
+</div>  
