@@ -1,5 +1,5 @@
-git config --global user.name TCC Barra Bonita Tour
-git config --global user.email tccbarrabonita26@gmail.com
+git config --global user.name Fabio18HB
+git config --global user.email fabheriq@gmail.com
 
 dotnet add package Microsoft.AspNetCore.Mvc
 dotnet add package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
