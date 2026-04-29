@@ -1,6 +1,9 @@
 git config --global user.name Fabio18HB
 git config --global user.email fabheriq@gmail.com
 
+git config --global user.name tccbarrabonita26-creator
+git config --global user.email tccbarrabonita26@gmail.com
+
 dotnet add package Microsoft.AspNetCore.Mvc
 dotnet add package Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 dotnet add package Microsoft.AspNetCore.StaticFiles

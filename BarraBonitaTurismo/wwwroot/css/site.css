@@ -1,58 +1,970 @@
-/* Estilos personalizados */
-.hero-section {
+/* ============================================
+   VARIÁVEIS E RESET
+   ============================================ */
+:root {
+    --primary: #FF5A00;
+    --primary-dark: #E04E00;
+    --secondary: #092C18;
+    --secondary-light: #0e3d22;
+    --text-dark: #475569;
+    --text-light: #FBF7F3;
+    --bg-light: #F8FAFC;
+    --white: #ffffff;
+    --gray-border: #E2E8F0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--white);
+    overflow-x: hidden;
+    color: var(--text-dark);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================
+   TIPOGRAFIA
+   ============================================ */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+.section-tag {
+    color: var(--primary);
+    font-weight: 700;
+    letter-spacing: 2.8px;
+    text-transform: uppercase;
+    font-size: 14px;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+.section-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    margin-bottom: 24px;
+}
+
+.section-divider {
+    width: 80px;
+    height: 4px;
+    background-color: var(--primary);
+    border-radius: 10px;
+    margin: 24px auto 32px;
+}
+
+/* ============================================
+   BOTÕES
+   ============================================ */
+.btn-primary-custom {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background-color: var(--primary);
+    border-radius: 9999px;
+    padding: 14px 40px;
+    font-weight: 600;
+    font-size: 18px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    background-color: var(--primary-dark);
+    box-shadow: 0 20px 30px -12px rgba(255, 90, 0, 0.4);
+    color: white;
+}
+
+/* ============================================
+   SEÇÕES
+   ============================================ */
+.section {
+    padding: 100px 0;
+}
+
+.section-light {
+    background-color: var(--bg-light);
+}
+
+.section-white {
+    background-color: var(--white);
+}
+
+/* ============================================
+   NAVBAR
+   ============================================ */
+.navbar-custom {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 0;
+}
+
+.navbar-brand-custom {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.navbar-brand-custom span {
+    color: var(--secondary);
+}
+
+.nav-link-custom {
+    color: var(--text-dark);
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    padding: 0.5rem 1rem;
+}
+
+.nav-link-custom:hover {
+    color: var(--primary);
+}
+
+/* ============================================
+   HERO
+   ============================================ */
+.hero {
     position: relative;
-    background-attachment: fixed;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #03140c 0%, #0b2f1a 100%);
+    padding: 120px 0 140px;
 }
 
-.attraction-card, .guide-card {
-    transition: transform 0.3s ease-in-out;
+.hero-badge {
+    display: inline-block;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 8px 24px;
+    margin-bottom: 32px;
+    font-family: 'League Spartan', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    color: white;
+    text-transform: uppercase;
 }
 
-.attraction-card:hover, .guide-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+.hero-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    color: var(--text-light);
+    margin-bottom: 24px;
 }
 
-.navbar {
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+.hero-title small {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    display: block;
 }
 
-footer {
+.hero-title large {
+    font-size: clamp(3rem, 10vw, 6rem);
+    display: block;
+}
+
+.hero-subtitle {
+    font-size: clamp(1rem, 4vw, 1.25rem);
+    font-weight: 300;
+    color: #F1F5F9;
+    max-width: 720px;
+    margin: 0 auto 32px;
+    line-height: 1.6;
+}
+
+.hero-scroll {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+/* ============================================
+   CARDS DE ATRAÇÕES
+   ============================================ */
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+}
+
+@media (max-width: 1200px) {
+    .attractions-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .attractions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .attractions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.attraction-card {
+    background: var(--white);
+    border-radius: 32px;
+    border: 1px solid var(--gray-border);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.attraction-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+}
+
+.attraction-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.attraction-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.attraction-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.attraction-description {
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.attraction-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     margin-top: auto;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
-    .hero-section {
-        height: 60vh;
-    }
-    
-    .hero-section h1 {
-        font-size: 2rem;
-    }
-    
-    .btn-group {
-        flex-wrap: wrap;
-    }
-    
-    .btn-group .btn {
-        margin: 2px;
-    }
+.attraction-link:hover {
+    color: var(--primary-dark);
 }
 
-/* Cards */
-.card {
-    border-radius: 10px;
-    overflow: hidden;
+/* ============================================
+   FILTROS
+   ============================================ */
+.filters-container {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 32px 0 48px;
+}
+
+.filter-btn {
+    padding: 10px 32px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    border: 1px solid var(--gray-border);
+    background: transparent;
+    color: var(--text-dark);
+}
+
+.filter-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filter-btn-active {
+    background: var(--primary);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 12px rgba(255, 90, 0, 0.3);
+}
+
+.filter-btn-active:hover {
+    background: var(--primary-dark);
+    color: white;
+}
+
+/* ============================================
+   EVENTOS
+   ============================================ */
+.event-card {
+    background: var(--bg-light);
+    border-radius: 48px;
+    padding: 32px;
+    margin-bottom: 32px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
     transition: all 0.3s ease;
 }
 
-/* Animações */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+.event-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.1);
 }
 
-.card {
-    animation: fadeIn 0.5s ease-out;
+.event-date {
+    width: 100px;
+    height: 100px;
+    border-radius: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.event-month {
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.event-day {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.event-type {
+    font-size: 12px;
+    letter-spacing: 1.2px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.event-title {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+/* ============================================
+   GUIA CARDS (HOSPITALIDADE)
+   ============================================ */
+.guide-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+}
+
+@media (max-width: 992px) {
+    .guide-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .guide-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.guide-card {
+    background: var(--white);
+    border-radius: 32px;
+    overflow: hidden;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.15);
+}
+
+.guide-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+
+.guide-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    color: var(--secondary);
+}
+
+.guide-description {
+    color: var(--text-dark);
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.guide-category {
+    color: var(--primary);
+    font-weight: 600;
+    display: inline-block;
+    margin-top: auto;
+}
+
+/* ============================================
+   FAQ
+   ============================================ */
+.faq-item {
+    background: var(--bg-light);
+    border-radius: 24px;
+    padding: 20px 28px;
+    margin-bottom: 24px;
+    border: 1px solid var(--gray-border);
+    transition: all 0.3s ease;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: 700;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+    background: none;
+    border: none;
+    font-family: 'Poppins', sans-serif;
+    color: var(--secondary);
+}
+
+.faq-answer {
+    margin-top: 16px;
+    color: var(--text-dark);
+    line-height: 1.6;
+    display: none;
+    padding-top: 16px;
+    border-top: 1px solid var(--gray-border);
+}
+
+.faq-item.active .faq-answer {
+    display: block;
+}
+
+.faq-icon {
+    font-size: 28px;
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+/* ============================================
+   MODAL
+   ============================================ */
+.modal-custom {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content-custom {
+    background: var(--white);
+    border-radius: 48px;
+    max-width: 600px;
+    width: 90%;
+    padding: 32px;
+    position: relative;
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 32px;
+    cursor: pointer;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: var(--primary);
+}
+
+.modal-image {
+    width: 100%;
+    border-radius: 32px;
+    margin-bottom: 24px;
+}
+
+.modal-title {
+    font-size: 28px;
+    margin-bottom: 16px;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+    background-color: var(--secondary);
+    padding: 80px 0 40px;
+    color: var(--text-light);
+}
+
+.footer-logo {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 32px;
+    font-weight: 800;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.footer-logo span {
+    color: white;
+}
+
+.footer-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: white;
+}
+
+.footer-divider {
+    width: 48px;
+    height: 3px;
+    background-color: var(--primary);
+    margin: 12px 0 24px;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links li {
+    margin-bottom: 16px;
+}
+
+.footer-links a {
+    color: var(--text-light);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: var(--primary);
+}
+
+.footer-contact {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.footer-bottom {
+    border-top: 1px solid rgba(255, 90, 0, 0.3);
+    padding-top: 32px;
+    text-align: center;
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+/* ============================================
+   HISTÓRIA
+   ============================================ */
+.history-image {
+    border-radius: 48px;
+    overflow: hidden;
+    box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.2);
+}
+
+.history-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.history-quote {
+    border-left: 3px solid var(--primary);
+    padding-left: 28px;
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #334155;
+    margin: 32px 0;
+}
+
+.stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 48px;
+    flex-wrap: wrap;
+}
+
+.stat-number {
+    font-family: 'League Spartan', sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    color: #64748B;
+    text-transform: uppercase;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ============================================
+   ANIMAÇÕES
+   ============================================ */
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-bounce {
+    animation: bounce 1s infinite;
+}
+
+/* ============================================
+   RESPONSIVIDADE
+   ============================================ */
+@media (max-width: 768px) {
+    .section {
+        padding: 60px 0;
+    }
+    
+    .hero {
+        padding: 100px 0;
+    }
+    
+    .event-card {
+        padding: 24px;
+    }
+    
+    .event-date {
+        width: 80px;
+        height: 80px;
+    }
+    
+    .event-month {
+        font-size: 22px;
+    }
+    
+    .event-title {
+        font-size: 22px;
+    }
+    
+    .stats {
+        gap: 32px;
+    }
+    
+    .stat-number {
+        font-size: 36px;
+    }
+}
+
+/* ============================================
+   CARDS DE ATRAÇÕES - VERSÃO ESTÁVEL
+   ============================================ */
+
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+}
+
+@media (max-width: 1200px) {
+    .attractions-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .attractions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .attractions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.attraction-card {
+    background: var(--white);
+    border-radius: 32px;
+    border: 1px solid var(--gray-border);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Estado oculto - mantém o espaço, mas invisível */
+.attraction-card.hidden {
+    display: flex !important;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+/* Estado visível */
+.attraction-card:not(.hidden) {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+}
+
+.attraction-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+}
+
+.attraction-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.attraction-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.attraction-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.attraction-description {
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.attraction-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.attraction-link:hover {
+    color: var(--primary-dark);
+}
+
+/* ============================================
+   CARDS DE ATRAÇÕES - COM REORGANIZAÇÃO SUAVE
+   ============================================ */
+
+.attractions-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 48px;
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 1200px) {
+    .attractions-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .attractions-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .attractions-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.attraction-card {
+    background: var(--white);
+    border-radius: 32px;
+    border: 1px solid var(--gray-border);
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Animação de fade out */
+.attraction-card.fade-out {
+    opacity: 0;
+    transform: scale(0.8);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+/* Animação de fade in */
+.attraction-card.fade-in {
+    animation: cardFadeIn 0.3s ease forwards;
+}
+
+@keyframes cardFadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.attraction-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+}
+
+.attraction-image {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+}
+
+.attraction-content {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.attraction-title {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+}
+
+.attraction-description {
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.attraction-link {
+    color: var(--primary);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 14px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+}
+
+.attraction-link:hover {
+    color: var(--primary-dark);
+}
+
+/* ============================================
+   ANIMAÇÃO DOS CARDS DE ATRAÇÕES
+   ============================================ */
+
+.attraction-card {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Ocultar cards suavemente */
+.attraction-card[style*="display: none"] {
+    display: none !important;
 }
