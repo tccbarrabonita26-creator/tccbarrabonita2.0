@@ -91,6 +91,49 @@ h1, h2, h3, h4, h5, h6 {
 /* ============================================
    SEÇÕES
    ============================================ */
+
+/* Se usar a primeira opção com background-image */
+.hero {
+    position: relative;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 120px 0 140px;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(3, 20, 12, 0.7) 0%, rgba(11, 47, 26, 0.8) 100%);
+    z-index: 1;
+}
+
+.hero > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* Se usar a segunda opção com div interna */
+.hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+.hero-bg-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 .section {
     padding: 100px 0;
 }
@@ -113,7 +156,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     z-index: 100;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    padding: 0;
+    padding: 15px 0;
 }
 
 .navbar-brand-custom {
@@ -136,6 +179,8 @@ h1, h2, h3, h4, h5, h6 {
     letter-spacing: 1px;
     transition: color 0.3s ease;
     padding: 0.5rem 1rem;
+    text-decoration: none !important;  /* Remove o sublinhado */
+    border-bottom: none !important;     /* Remove qualquer borda inferior */
 }
 
 .nav-link-custom:hover {
@@ -327,62 +372,138 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0 4px 12px rgba(255, 90, 0, 0.3);
 }
 
-.filter-btn-active:hover {
-    background: var(--primary-dark);
-    color: white;
+.filter-btn-inactive {
+    background: transparent;
+    color: var(--text-dark);
+    border: 1px solid var(--gray-border);
 }
 
 /* ============================================
-   EVENTOS
+   EVENTOS - CALENDÁRIO COM CORES DO SITE
    ============================================ */
+
 .event-card {
-    background: var(--bg-light);
-    border-radius: 48px;
-    padding: 32px;
-    margin-bottom: 32px;
+    background: var(--white);
+    border-radius: 24px;
+    padding: 24px 28px;
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
     align-items: center;
     transition: all 0.3s ease;
+    border: 1px solid var(--gray-border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .event-card:hover {
     transform: translateX(8px);
-    box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.15);
+    border-left: 4px solid var(--primary);
+    border-radius: 24px;
 }
 
-.event-date {
-    width: 100px;
-    height: 100px;
-    border-radius: 32px;
+.event-date-small {
+    min-width: 90px;
+    width: 90px;
+    height: 90px;
+    border-radius: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     color: white;
+    text-align: center;
 }
 
-.event-month {
-    font-size: 28px;
+.event-month-small {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.event-day-small {
+    font-size: 24px;
     font-weight: 800;
+    line-height: 1.2;
 }
 
-.event-day {
-    font-size: 20px;
-    font-weight: 600;
+.event-content {
+    flex: 1;
 }
 
-.event-type {
-    font-size: 12px;
-    letter-spacing: 1.2px;
+.event-category {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
     margin-bottom: 8px;
     display: inline-block;
 }
 
-.event-title {
-    font-size: 28px;
+.event-title-small {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary);
     margin-bottom: 8px;
+}
+
+.event-description {
+    font-size: 14px;
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Cores das categorias */
+.event-category-gastronomia {
+    color: #FF5A00;
+}
+
+.event-category-esporte {
+    color: #0EA5E9;
+}
+
+.event-category-cultural {
+    color: #8B5CF6;
+}
+
+.event-category-religioso {
+    color: #10B981;
+}
+
+.event-category-natal {
+    color: #FF5A00;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .event-card {
+        padding: 20px;
+        gap: 16px;
+    }
+    
+    .event-date-small {
+        min-width: 70px;
+        width: 70px;
+        height: 70px;
+    }
+    
+    .event-month-small {
+        font-size: 11px;
+    }
+    
+    .event-day-small {
+        font-size: 18px;
+    }
+    
+    .event-title-small {
+        font-size: 18px;
+    }
+    
+    .event-description {
+        font-size: 13px;
+    }
 }
 
 /* ============================================
@@ -718,11 +839,15 @@ h1, h2, h3, h4, h5, h6 {
     }
     
     .event-month {
-        font-size: 22px;
+        font-size: 14px;
+    }
+    
+    .event-day {
+        font-size: 24px;
     }
     
     .event-title {
-        font-size: 22px;
+        font-size: 20px;
     }
     
     .stats {
@@ -732,239 +857,222 @@ h1, h2, h3, h4, h5, h6 {
     .stat-number {
         font-size: 36px;
     }
+};
+
+/* ============================================
+   EVENTOS - ESTILO PROTÓTIPO
+   ============================================ */
+
+.event-card {
+    background: var(--bg-light);
+    border-radius: 32px;
+    padding: 24px 28px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: center;
+    transition: all 0.3s ease;
+    border: 1px solid var(--gray-border);
+}
+
+.event-card:hover {
+    transform: translateX(8px);
+    box-shadow: 0 10px 25px -12px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary);
+}
+
+.event-date-small {
+    min-width: 90px;
+    width: 90px;
+    height: 90px;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+.event-month-small {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.event-day-small {
+    font-size: 22px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.event-content {
+    flex: 1;
+}
+
+.event-category {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+    display: inline-block;
+}
+
+.event-title-small {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 8px;
+}
+
+.event-description {
+    font-size: 14px;
+    color: var(--text-dark);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .event-card {
+        padding: 20px;
+        gap: 16px;
+    }
+    
+    .event-date-small {
+        min-width: 70px;
+        width: 70px;
+        height: 70px;
+    }
+    
+    .event-month-small {
+        font-size: 11px;
+    }
+    
+    .event-day-small {
+        font-size: 18px;
+    }
+    
+    .event-title-small {
+        font-size: 18px;
+    }
+    
+    .event-description {
+        font-size: 13px;
+    }
 }
 
 /* ============================================
-   CARDS DE ATRAÇÕES - VERSÃO ESTÁVEL
+   HOSPITALIDADE - COM IMAGENS
    ============================================ */
 
-.attractions-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    margin-top: 48px;
-}
-
-@media (max-width: 1200px) {
-    .attractions-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-    .attractions-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    .attractions-grid {
-        grid-template-columns: 1fr;
-    }
-}
-
-.attraction-card {
+.hospitality-card {
     background: var(--white);
-    border-radius: 32px;
-    border: 1px solid var(--gray-border);
+    border-radius: 24px;
     overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    opacity: 1;
-    visibility: visible;
+    transition: all 0.3s ease;
+    border: 1px solid var(--gray-border);
+    position: relative;
 }
 
-/* Estado oculto - mantém o espaço, mas invisível */
-.attraction-card.hidden {
-    display: flex !important;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.95);
-    pointer-events: none;
-    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+.hospitality-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px -12px rgba(0, 0, 0, 0.15);
 }
 
-/* Estado visível */
-.attraction-card:not(.hidden) {
-    opacity: 1;
-    visibility: visible;
-    transform: scale(1);
-    transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
-}
-
-.attraction-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
-}
-
-.attraction-image {
+.hospitality-card-image {
     width: 100%;
-    height: 220px;
+    height: 160px;
     object-fit: cover;
 }
 
-.attraction-content {
-    padding: 24px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.hospitality-card-content {
+    padding: 20px;
 }
 
-.attraction-title {
-    font-size: 1.5rem;
+.hospitality-card-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 8px;
+}
+
+.hospitality-card-description {
+    font-size: 14px;
+    color: var(--text-dark);
+    line-height: 1.5;
     margin-bottom: 12px;
 }
 
-.attraction-description {
-    color: var(--text-dark);
-    line-height: 1.5;
-    margin-bottom: 16px;
-    flex: 1;
-}
-
-.attraction-link {
-    color: var(--primary);
+.hospitality-card-tag {
+    display: inline-block;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-flex;
+    letter-spacing: 1px;
+    color: var(--primary);
+    background-color: rgba(255, 90, 0, 0.1);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.hospitality-icon {
+    width: 50px;
+    height: 50px;
+    background-color: rgba(255, 90, 0, 0.1);
+    border-radius: 16px;
+    display: flex;
     align-items: center;
-    gap: 8px;
-    margin-top: auto;
+    justify-content: center;
 }
 
-.attraction-link:hover {
-    color: var(--primary-dark);
+.hospitality-section-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--secondary);
 }
 
-/* ============================================
-   CARDS DE ATRAÇÕES - COM REORGANIZAÇÃO SUAVE
-   ============================================ */
-
-.attractions-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 32px;
-    margin-top: 48px;
-    transition: all 0.3s ease;
-}
-
-@media (max-width: 1200px) {
-    .attractions-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-}
-
-@media (max-width: 992px) {
-    .attractions-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
+.hospitality-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 }
 
 @media (max-width: 768px) {
-    .attractions-grid {
-        grid-template-columns: 1fr;
+    .hospitality-section-title {
+        font-size: 24px;
+    }
+    
+    .hospitality-card-image {
+        height: 140px;
+    }
+    
+    .hospitality-card-content {
+        padding: 16px;
+    }
+    
+    .hospitality-card-title {
+        font-size: 16px;
     }
 }
 
-.attraction-card {
-    background: var(--white);
-    border-radius: 32px;
-    border: 1px solid var(--gray-border);
-    overflow: hidden;
-    transition: all 0.3s ease;
-    cursor: pointer;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Animação de fade out */
-.attraction-card.fade-out {
-    opacity: 0;
-    transform: scale(0.8);
-    transition: opacity 0.2s ease, transform 0.2s ease;
-}
-
-/* Animação de fade in */
-.attraction-card.fade-in {
-    animation: cardFadeIn 0.3s ease forwards;
-}
-
-@keyframes cardFadeIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.95);
+/* Responsividade */
+@media (max-width: 768px) {
+    .hospitality-section-title {
+        font-size: 24px;
     }
-    100% {
-        opacity: 1;
-        transform: scale(1);
+    
+    .hospitality-card {
+        padding: 20px;
     }
-}
-
-.attraction-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
-}
-
-.attraction-image {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
-
-.attraction-content {
-    padding: 24px;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.attraction-title {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-}
-
-.attraction-description {
-    color: var(--text-dark);
-    line-height: 1.5;
-    margin-bottom: 16px;
-    flex: 1;
-}
-
-.attraction-link {
-    color: var(--primary);
-    font-weight: 700;
-    text-transform: uppercase;
-    font-size: 14px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: auto;
-}
-
-.attraction-link:hover {
-    color: var(--primary-dark);
-}
-
-/* ============================================
-   ANIMAÇÃO DOS CARDS DE ATRAÇÕES
-   ============================================ */
-
-.attraction-card {
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Ocultar cards suavemente */
-.attraction-card[style*="display: none"] {
-    display: none !important;
+    
+    .hospitality-card-title {
+        font-size: 16px;
+    }
+    
+    .hospitality-card-description {
+        font-size: 13px;
+    }
 }
