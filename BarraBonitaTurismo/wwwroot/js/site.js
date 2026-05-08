@@ -7,6 +7,45 @@ const BarraBonitaTurismo = (function() {
     
     // Elementos DOM
     let modal, modalImage, modalTitle, modalDesc, menuToggle, navLinks;
+
+    // ============================================
+    // BOTÃO VOLTAR AO TOPO
+    // ============================================
+    
+    const initScrollToTop = () => {
+        const scrollBtn = document.getElementById('scrollToTopBtn');
+        const heroSection = document.getElementById('hero');
+        const historiaSection = document.getElementById('historia');
+        
+        if (!scrollBtn) return;
+        
+        // Função para verificar se deve mostrar o botão
+        const toggleScrollButton = () => {
+            const scrollY = window.scrollY;
+            const heroBottom = heroSection ? heroSection.offsetTop + heroSection.offsetHeight : 500;
+            
+            // Mostrar botão quando passar da seção Hero
+            if (scrollY > heroBottom - 100) {
+                scrollBtn.classList.add('show');
+            } else {
+                scrollBtn.classList.remove('show');
+            }
+        };
+        
+        // Evento de scroll
+        window.addEventListener('scroll', toggleScrollButton);
+        
+        // Evento de clique para voltar ao topo
+        scrollBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Executar uma vez para verificar estado inicial
+        toggleScrollButton();
+    };
     
     // ============================================
     // FILTROS - VERSÃO SIMPLES E ESTÁVEL
@@ -201,6 +240,7 @@ const BarraBonitaTurismo = (function() {
         initMobileMenu();
         initSmoothScroll();
         initNavbarScroll();
+        initScrollToTop();
     };
     
     // Retornar API pública
