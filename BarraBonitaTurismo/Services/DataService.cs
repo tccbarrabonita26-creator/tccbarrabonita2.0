@@ -48,109 +48,265 @@ namespace BarraBonitaTurismo.Services
                           Na década de 1960, com a construção da Usina Hidrelétrica de Barra Bonita, 
                           a cidade ganhou ainda mais destaque, formando o famoso Lago de Barra Bonita, 
                           que hoje é o principal cartão-postal e atração turística da região.",
-                Images = new List<string> 
-                { 
+                Images = new List<string>
+                {
                     "/images/cidade/panorama1.jpg",
                     "/images/cidade/lago.jpg",
-                    "/images/cidade/centro.jpg" 
+                    "/images/cidade/centro.jpg"
                 }
             };
 
             // Atrações Turísticas
             _attractions = new List<Attraction>
             {
-                new Attraction
-                {
-                    Id = 1,
-                    Name = "Lago de Barra Bonita",
-                    Description = "Imenso lago formado pela represa da Usina Hidrelétrica, perfeito para esportes náuticos, pesca e passeios de barco. Com mais de 40km de extensão, é o principal ponto turístico da cidade.",
-                    Category = "Náutica",
-                    ImageUrl = "/images/atracoes/lago.jpg",
-                    Address = "Margem do Rio Tietê, Barra Bonita - SP",
-                    Schedule = "Acesso livre 24 horas",
-                    Latitude = -22.4945,
-                    Longitude = -48.5583,
-                    FunFact = "O lago tem capacidade para gerar energia para mais de 500 mil pessoas!"
-                },
-                new Attraction
-                {
-                    Id = 2,
-                    Name = "Usina Hidrelétrica de Barra Bonita",
-                    Description = "Visita técnica à usina que transformou a região, com museu e mirante. Conheça a história da energia no estado de São Paulo.",
-                    Category = "Cultura",
-                    ImageUrl = "/images/atracoes/usina.jpg",
-                    Address = "Rodovia SP-191, Km 12",
-                    Schedule = "Terça a Domingo, 9h às 16h",
-                    Latitude = -22.5123,
-                    Longitude = -48.5247,
-                    FunFact = "Inaugurada em 1963, foi a primeira grande usina do Rio Tietê!"
-                },
-                new Attraction
-                {
-                    Id = 3,
-                    Name = "Recanto Ecológico",
-                    Description = "Parque com trilhas ecológicas, mirantes e área para piquenique. Ideal para contato com a natureza e observação de aves.",
-                    Category = "Natureza",
-                    ImageUrl = "/images/atracoes/recanto.jpg",
-                    Address = "Estrada Municipal, s/n - Bairro do Lago",
-                    Schedule = "8h às 18h (fecha às segundas)",
-                    Latitude = -22.4789,
-                    Longitude = -48.5321,
-                    FunFact = "Abriga mais de 150 espécies de aves nativas!"
-                },
-                new Attraction
-                {
-                    Id = 4,
-                    Name = "Orla Fluvial",
-                    Description = "Calçadão à beira do lago com quiosques, ciclovia e playground. Ponto de encontro para famílias aos finais de semana.",
-                    Category = "Lazer",
-                    ImageUrl = "/images/atracoes/orla.jpg",
-                    Address = "Avenida Beira Lago, Centro",
-                    Schedule = "Acesso livre 24 horas",
-                    Latitude = -22.4951,
-                    Longitude = -48.5567,
-                    FunFact = "Palco do tradicional Réveillon de Barra Bonita!"
-                },
-                new Attraction
-                {
-                    Id = 5,
-                    Name = "Museu Histórico Municipal",
-                    Description = "Acervo com mais de 500 peças que contam a história da cidade e da região, incluindo objetos da época da fundação.",
-                    Category = "Cultura",
-                    ImageUrl = "/images/atracoes/museu.jpg",
-                    Address = "Rua XV de Novembro, 150 - Centro",
-                    Schedule = "Terça a Sexta, 9h às 17h",
-                    Latitude = -22.4932,
-                    Longitude = -48.5523,
-                    FunFact = "O prédio foi a primeira escola da cidade, construída em 1912!"
-                },
-                new Attraction
-                {
-                    Id = 6,
-                    Name = "Pesqueiro do Lago",
-                    Description = "Estrutura completa para pesca esportiva com restaurante e área de lazer. Opção de aluguel de equipamentos.",
-                    Category = "Náutica",
-                    ImageUrl = "/images/atracoes/pesqueiro.jpg",
-                    Address = "Estrada do Lago, Km 5",
-                    Schedule = "Quinta a Domingo, 8h às 18h",
-                    Latitude = -22.5012,
-                    Longitude = -48.5456,
-                    FunFact = "Campeonato anual de pesca atrai competidores de todo o estado!"
-                },
-                new Attraction
-                {
-                    Id = 7,
-                    Name = "Feira Noturna",
-                    Description = "Feira de artesanato e gastronomia típica, com música ao vivo. Ocorre todas as quintas-feiras.",
-                    Category = "Lazer",
-                    ImageUrl = "/images/atracoes/feira.jpg",
-                    Address = "Praça da Matriz, Centro",
-                    Schedule = "Quintas, 18h às 22h",
-                    Latitude = -22.4948,
-                    Longitude = -48.5512,
-                    FunFact = "Comidas típicas como bolinho de peixe são destaque!"
-                }
-            };
+               new Attraction
+            {
+                Id = 1,
+                Name = "Passeios de Barco",
+                Description = "Os passeios de barco são a principal atividade turística de Barra Bonita e representam a identidade da cidade. As embarcações percorrem o Rio Tietê em trajetos turísticos que permitem aos visitantes observar o lago formado pela barragem, áreas verdes, marinas, pontes e toda a estrutura da hidrovia. Os barcos são modernos, seguros e preparados para receber turistas durante todo o ano, especialmente aos finais de semana. Durante o passeio, muitos turistas têm a oportunidade de realizar a famosa eclusagem, experiência considerada única no interior paulista. Algumas embarcações oferecem restaurante, música ao vivo e eventos temáticos, transformando o passeio em uma experiência completa de lazer e contemplação.",
+                Category = "Náutica",
+                ImageUrl = "",
+                Address = "Estrada do Lago, Km 5 - Barra Bonita/SP",
+                Schedule = "Quinta a Domingo, das 8h às 18h",
+                Latitude = -22.5012,
+                Longitude = -48.5456,
+                FunFact = "Os barcos turísticos passam pela famosa Eclusa de Barra Bonita!"
+            },
+            new Attraction
+            {
+                Id = 2,
+                Name = "Eclusa de Barra Bonita",
+                Description = "A Eclusa de Barra Bonita é uma das estruturas turísticas mais importantes da cidade e um dos maiores símbolos da engenharia fluvial brasileira. Construída junto à Usina Hidrelétrica, ela funciona como um elevador aquático que permite que embarcações subam ou desçam diferentes níveis do Rio Tietê. O processo de eclusagem impressiona turistas pela quantidade de água movimentada e pela complexidade do funcionamento da estrutura.",
+                Category = "Náutica",
+                ImageUrl = "",
+                Address = "Usina Hidrelétrica de Barra Bonita - Barra Bonita/SP",
+                Schedule = "Todos os dias, das 8h às 17h",
+                Latitude = -22.4898,
+                Longitude = -48.5583,
+                FunFact = "É considerada a primeira eclusa turística da América do Sul!"
+            },
+            new Attraction
+            {
+                Id = 3,
+                Name = "Marina e Orla Fluvial",
+                Description = "A marina e a orla fluvial representam uma das regiões mais movimentadas e turísticas de Barra Bonita. O espaço é utilizado para lazer náutico, passeios de barco, pesca esportiva e convivência social. A marina possui estrutura para embarcações de pequeno e médio porte, enquanto a orla oferece calçadão, áreas de descanso, iluminação noturna e ampla vista do Rio Tietê.",
+                Category = "Náutica",
+                ImageUrl = "",
+                Address = "Avenida Rosa Zanela Petri - Barra Bonita/SP",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4915,
+                Longitude = -48.5564,
+                FunFact = "A região da orla é um dos locais mais visitados durante o pôr do sol!"
+            },
+            new Attraction
+            {
+                Id = 4,
+                Name = "Hidrovia Tietê–Paraná",
+                Description = "A Hidrovia Tietê–Paraná é uma importante rota de navegação brasileira que passa diretamente por Barra Bonita. Utilizada para transporte de cargas, turismo e integração fluvial, a hidrovia conecta diversas cidades e estados através dos rios Tietê e Paraná. Em Barra Bonita, ela possui grande importância econômica e turística devido à presença da eclusa e da navegação turística.",
+                Category = "Náutica",
+                ImageUrl = "",
+                Address = "Rio Tietê - Barra Bonita/SP",
+                Schedule = "Funcionamento contínuo",
+                Latitude = -22.4906,
+                Longitude = -48.5572,
+                FunFact = "A hidrovia interliga diferentes regiões brasileiras através da navegação fluvial!"
+            },
+            new Attraction
+            {
+                Id = 5,
+                Name = "Museu Municipal Luiz Saffi",
+                Description = "O Museu Municipal Luiz Saffi preserva grande parte da história de Barra Bonita e funciona em um prédio histórico ligado ao desenvolvimento ferroviário da cidade. O local reúne fotografias antigas, documentos históricos, móveis, objetos culturais e itens relacionados à navegação e ao crescimento econômico regional.",
+                Category = "Cultura",
+                ImageUrl = "",
+                Address = "Rua Primeiro de Março, Centro - Barra Bonita/SP",
+                Schedule = "Segunda a Sexta, das 9h às 17h",
+                Latitude = -22.4909,
+                Longitude = -48.5578,
+                FunFact = "O museu funciona em um prédio histórico ligado à antiga ferrovia!"
+            },
+            new Attraction
+            {
+                Id = 6,
+                Name = "Memorial do Rio Tietê",
+                Description = "O Memorial do Rio Tietê é um espaço cultural e educativo voltado à valorização histórica, ambiental e econômica do Rio Tietê. O local possui painéis informativos, fotografias, equipamentos náuticos, maquetes e conteúdos educativos relacionados à navegação fluvial e à preservação ambiental.",
+                Category = "Cultura",
+                ImageUrl = "",
+                Address = "Orla Turística - Barra Bonita/SP",
+                Schedule = "Terça a Domingo, das 9h às 18h",
+                Latitude = -22.4922,
+                Longitude = -48.5551,
+                FunFact = "O espaço promove atividades de conscientização ambiental!"
+            },
+            new Attraction
+            {
+                Id = 7,
+                Name = "Usina Hidrelétrica de Barra Bonita",
+                Description = "A Usina Hidrelétrica de Barra Bonita é uma das obras mais importantes do interior paulista. Construída sobre o Rio Tietê, ela é responsável pela geração de energia elétrica e pela formação do lago que transformou a paisagem da cidade. A estrutura possui grandes turbinas hidráulicas e integração direta com a eclusa turística.",
+                Category = "Cultura",
+                ImageUrl = "",
+                Address = "Barragem de Barra Bonita - Barra Bonita/SP",
+                Schedule = "Visitação mediante agendamento",
+                Latitude = -22.4876,
+                Longitude = -48.5597,
+                FunFact = "A usina ajudou a transformar Barra Bonita em referência no turismo fluvial!"
+            },
+            new Attraction
+            {
+                Id = 8,
+                Name = "Ponte Campos Salles",
+                Description = "A Ponte Campos Salles é um dos símbolos históricos e arquitetônicos de Barra Bonita. Construída em 1915 com estrutura metálica importada da Alemanha, ela conecta Barra Bonita ao município de Igaraçu do Tietê. A ponte possui grande importância histórica para o desenvolvimento regional.",
+                Category = "Cultura",
+                ImageUrl = "",
+                Address = "Ligação Barra Bonita e Igaraçu do Tietê",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4889,
+                Longitude = -48.5529,
+                FunFact = "A estrutura metálica original veio da Alemanha!"
+            },
+            new Attraction
+            {
+                Id = 9,
+                Name = "Centro Cultural Célia Stangherlin",
+                Description = "O Centro Cultural Célia Stangherlin é um importante espaço de valorização artística e cultural de Barra Bonita. O local recebe exposições, apresentações musicais, oficinas culturais, palestras e eventos educativos voltados à comunidade.",
+                Category = "Cultura",
+                ImageUrl = "",
+                Address = "Centro de Barra Bonita/SP",
+                Schedule = "Segunda a Sexta, das 8h às 18h",
+                Latitude = -22.4918,
+                Longitude = -48.5568,
+                FunFact = "O espaço recebe eventos culturais durante todo o ano!"
+            },
+            new Attraction
+            {
+                Id = 10,
+                Name = "Lago de Barra Bonita",
+                Description = "O Lago de Barra Bonita foi formado após a construção da barragem da usina hidrelétrica e se tornou uma das paisagens naturais mais famosas do interior paulista. O enorme espelho d’água é utilizado para turismo, lazer, pesca esportiva e esportes náuticos.",
+                Category = "Natureza",
+                ImageUrl = "",
+                Address = "Rio Tietê - Barra Bonita/SP",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4941,
+                Longitude = -48.5538,
+                FunFact = "O lago é famoso pelo belo pôr do sol!"
+            },
+            new Attraction
+            {
+                Id = 11,
+                Name = "Mirante Barra Bonita",
+                Description = "O Mirante Barra Bonita oferece uma vista privilegiada da cidade, do Rio Tietê e das áreas turísticas próximas à orla. O espaço é muito utilizado para contemplação da paisagem, registros fotográficos e apreciação do pôr do sol.",
+                Category = "Natureza",
+                ImageUrl = "",
+                Address = "Região elevada da Orla - Barra Bonita/SP",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4937,
+                Longitude = -48.5543,
+                FunFact = "O mirante é um dos locais preferidos para fotos panorâmicas!"
+            },
+            new Attraction
+            {
+                Id = 12,
+                Name = "Mirante Ana Catharina Ortigosa Spaulonci",
+                Description = "O Mirante Ana Catharina Ortigosa Spaulonci é um espaço turístico voltado à contemplação da paisagem natural de Barra Bonita. O local oferece ampla vista do Rio Tietê, do lago e das áreas verdes próximas à cidade.",
+                Category = "Natureza",
+                ImageUrl = "",
+                Address = "Área turística de Barra Bonita/SP",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4954,
+                Longitude = -48.5527,
+                FunFact = "O local possui uma das melhores vistas do pôr do sol!"
+            },
+            new Attraction
+            {
+                Id = 13,
+                Name = "Áreas Verdes e Orla Arborizada",
+                Description = "As áreas verdes e a orla arborizada de Barra Bonita ajudam a compor o clima tranquilo e turístico da cidade. Próximas ao Rio Tietê, essas regiões oferecem espaços para caminhadas, ciclismo, descanso e convivência social.",
+                Category = "Natureza",
+                ImageUrl = "",
+                Address = "Orla do Rio Tietê - Barra Bonita/SP",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4928,
+                Longitude = -48.5547,
+                FunFact = "A arborização da orla ajuda a refrescar a região próxima ao rio!"
+            },
+            new Attraction
+            {
+                Id = 14,
+                Name = "Orla Turística",
+                Description = "A Orla Turística é um dos espaços mais movimentados de Barra Bonita e reúne lazer, gastronomia e contato com o Rio Tietê. O local possui calçadão, ciclovia, playground, quiosques e áreas destinadas a eventos culturais e turísticos.",
+                Category = "Lazer",
+                ImageUrl = "",
+                Address = "Avenida Rosa Zanela Petri - Barra Bonita/SP",
+                Schedule = "Aberto diariamente, 24 horas",
+                Latitude = -22.4917,
+                Longitude = -48.5555,
+                FunFact = "A orla recebe festivais e apresentações musicais!"
+            },
+            new Attraction
+            {
+                Id = 15,
+                Name = "Praça do Artesanato",
+                Description = "A Praça do Artesanato é um importante espaço de valorização cultural e econômica de Barra Bonita. O local reúne artesãos da cidade e da região, oferecendo peças em madeira, tecido, cerâmica, bordado e decoração.",
+                Category = "Lazer",
+                ImageUrl = "",
+                Address = "Centro Turístico - Barra Bonita/SP",
+                Schedule = "Sexta a Domingo, das 10h às 22h",
+                Latitude = -22.4903,
+                Longitude = -48.5569,
+                FunFact = "Os produtos são feitos manualmente por artesãos locais!"
+            },
+            new Attraction
+            {
+                Id = 16,
+                Name = "Teleférico",
+                Description = "O teleférico de Barra Bonita é uma das atrações mais conhecidas da cidade. O passeio oferece uma vista panorâmica do Rio Tietê, da orla e das áreas turísticas próximas.",
+                Category = "Lazer",
+                ImageUrl = "",
+                Address = "Parque Turístico Municipal - Barra Bonita/SP",
+                Schedule = "Sábado e Domingo, das 9h às 18h",
+                Latitude = -22.4931,
+                Longitude = -48.5574,
+                FunFact = "O teleférico possui aproximadamente 700 metros de percurso!"
+            },
+            new Attraction
+            {
+                Id = 17,
+                Name = "Jardineira Turística",
+                Description = "A Jardineira Turística realiza passeios pelos principais pontos turísticos de Barra Bonita, especialmente pela orla e pela região central da cidade.",
+                Category = "Lazer",
+                ImageUrl = "",
+                Address = "Saída da Orla Turística - Barra Bonita/SP",
+                Schedule = "Finais de semana e feriados, das 10h às 17h",
+                Latitude = -22.4925,
+                Longitude = -48.5559,
+                FunFact = "É uma das atrações favoritas das crianças!"
+            },
+            new Attraction
+            {
+                Id = 18,
+                Name = "Pedalinhos",
+                Description = "Os pedalinhos fazem parte das atrações de lazer mais tradicionais de Barra Bonita, oferecendo aos visitantes uma experiência recreativa nas águas próximas à orla turística.",
+                Category = "Lazer",
+                ImageUrl = "",
+                Address = "Orla Turística de Barra Bonita/SP",
+                Schedule = "Todos os dias, das 9h às 18h",
+                Latitude = -22.4919,
+                Longitude = -48.5558,
+                FunFact = "Os pedalinhos são muito procurados por famílias!"
+            },
+            new Attraction
+            {
+                Id = 19,
+                Name = "Mini Cidade da Criança",
+                Description = "A Mini Cidade da Criança é um espaço recreativo voltado ao lazer infantil, com estruturas que simulam uma pequena cidade em tamanho reduzido.",
+                Category = "Lazer",
+                ImageUrl = "",
+                Address = "Parque Turístico Municipal - Barra Bonita/SP",
+                Schedule = "Todos os dias, das 9h às 17h",
+                Latitude = -22.4939,
+                Longitude = -48.5567,
+                FunFact = "O espaço foi criado especialmente para atividades infantis!"
+            },
+        };
 
             // Eventos
             _events = new List<Event>
@@ -249,17 +405,17 @@ namespace BarraBonitaTurismo.Services
         }
 
         public CityInfo GetCityInfo() => _cityInfo;
-        
+
         public List<Attraction> GetAttractions() => _attractions;
-        
+
         public List<Attraction> GetAttractionsByCategory(string category)
         {
             if (string.IsNullOrEmpty(category)) return _attractions;
             return _attractions.Where(a => a.Category.Equals(category, StringComparison.OrdinalIgnoreCase)).ToList();
         }
-        
+
         public List<Event> GetEvents() => _events.OrderBy(e => e.StartDate).ToList();
-        
+
         public List<Event> GetUpcomingEvents(int count)
         {
             return _events.Where(e => e.StartDate >= DateTime.Now)
@@ -267,24 +423,24 @@ namespace BarraBonitaTurismo.Services
                          .Take(count)
                          .ToList();
         }
-        
+
         public List<FAQ> GetFAQs() => _faqs.OrderBy(f => f.Order).ToList();
-        
+
         public List<GuideItem> GetGuideItems() => _guideItems;
-        
+
         public List<GuideItem> GetGuideItemsByType(string type)
         {
             if (string.IsNullOrEmpty(type)) return _guideItems;
             return _guideItems.Where(g => g.Type.Equals(type, StringComparison.OrdinalIgnoreCase)).ToList();
         }
-        
+
         public bool SendContactMessage(ContactMessage message)
         {
             // Simula envio de email ou armazenamento
             // Em um sistema real, aqui enviaria email ou salvaria em arquivo
-            if (message != null && 
-                !string.IsNullOrEmpty(message.Name) && 
-                !string.IsNullOrEmpty(message.Email) && 
+            if (message != null &&
+                !string.IsNullOrEmpty(message.Name) &&
+                !string.IsNullOrEmpty(message.Email) &&
                 !string.IsNullOrEmpty(message.Message))
             {
                 // Simula sucesso
