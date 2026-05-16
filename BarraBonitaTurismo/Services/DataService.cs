@@ -35,19 +35,11 @@ namespace BarraBonitaTurismo.Services
             _cityInfo = new CityInfo
             {
                 Name = "Barra Bonita",
-                Foundation = "13 de setembro de 1890",
+                Foundation = "13 de setembro de 1886",
                 Population = "35.000 habitantes",
                 Area = "146 km²",
                 Slogan = "Capital Náutica do Interior Paulista",
-                History = @"Barra Bonita foi fundada em 13 de setembro de 1890 por José Theodoro de Souza 
-                          e outros pioneiros. O nome 'Barra Bonita' origina-se da bela confluência dos rios 
-                          Tietê e Piracicaba, formando um local de rara beleza natural. 
-                          A cidade cresceu às margens do Rio Tietê e se tornou um importante polo 
-                          turístico e econômico da região. 
-                          <br/><br/>
-                          Na década de 1960, com a construção da Usina Hidrelétrica de Barra Bonita, 
-                          a cidade ganhou ainda mais destaque, formando o famoso Lago de Barra Bonita, 
-                          que hoje é o principal cartão-postal e atração turística da região.",
+                History = @"Barra Bonita foi fundada em 13 de setembro de 1886 por José Theodoro de Souza e outros pioneiros. O nome 'Barra Bonita' origina-se da bela confluência dos rios Tietê e Piracicaba, formando um local de rara beleza natural. A cidade cresceu às margens do Rio Tietê e se tornou um importante polo turístico e econômico da região. <br/><br/> Na década de 1960, com a construção da Usina Hidrelétrica de Barra Bonita, a cidade ganhou ainda mais destaque, formando o famoso Lago de Barra Bonita, que hoje é o principal cartão-postal e atração turística da região.",
                 Images = new List<string>
                 {
                     "/images/cidade/panorama1.jpg",

@@ -15,8 +15,8 @@
 <nav class="navbar navbar-expand-lg navbar-custom">
     <div class="container">
         <a class="navbar-brand" href="#hero">
-    <img src="~/img/Logo Horizontal 2.png" alt="Barra Bonita" style="height: 50px; width: auto;">
-</a>
+            <img src="~/img/Logo Horizontal 2.png" alt="Barra Bonita" style="height: 50px; width: auto;">
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -35,7 +35,8 @@
 </nav>
 
 <!-- Hero Section -->
-<section class="hero" id="hero" style="background-image: url('/img/Banner.png'); background-size: cover; background-position: center;">
+<section class="hero" id="hero"
+         style="background-image: url('/img/Banner.png'); background-size: cover; background-position: center;">
     <div class="container text-center">
         <div class="hero-badge">A Pérola do Tietê</div>
         <h1 class="hero-title">
@@ -43,7 +44,8 @@
             <large>Barra Bonita</large>
         </h1>
         <p class="hero-subtitle">
-            Descubra a eclusa mais famosa do Brasil e encante-se com a hospitalidade de uma estância turística inesquecível.
+            Descubra a eclusa mais famosa do Brasil e encante-se com a hospitalidade de uma estância turística
+            inesquecível.
         </p>
         <a href="#atracoes" class="btn-primary-custom">
             Começar Exploração
@@ -64,9 +66,11 @@
         <div class="row align-items-center g-5">
             <div class="col-lg-6">
                 <div class="history-image">
-                    <img src="https://picsum.photos/id/96/600/500" alt="História de Barra Bonita" class="img-fluid">
+                    <img src="https://i0.wp.com/temcidades.com.br/wp-content/uploads/2025/08/WhatsApp-Image-2025-08-26-at-23.58.57.jpeg?resize=768%2C311&ssl=1"
+                         class="history-img">
                 </div>
             </div>
+
             <div class="col-lg-6">
                 <span class="section-tag">Nossa Herança</span>
                 <h2 class="section-title">Um destino forjado pelas águas e pelo tempo</h2>
@@ -78,7 +82,7 @@
                 </div>
                 <div class="stats">
                     <div>
-                        <div class="stat-number">@(cityInfo?.Foundation?.Split(' ').LastOrDefault() ?? "1883")</div>
+                        <div class="stat-number">1886</div>
                         <div class="stat-label">Fundação Oficial</div>
                     </div>
                     <div>
@@ -112,295 +116,335 @@
             @foreach (var attraction in allAttractions)
             {
                 <div class="attraction-card" data-category="@attraction.Category">
-                    <img class="attraction-image" 
-                         src="@attraction.ImageUrl" 
-                         alt="@attraction.Name"
+                    <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
                          onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
                     <div class="attraction-content">
                         <h3 class="attraction-title">@attraction.Name</h3>
-                        <p class="attraction-description">@(attraction.Description.Length > 100 ? attraction.Description.Substring(0, 100) + "..." : attraction.Description)</p>
-                        <a href="#" class="attraction-link" onclick="BarraBonitaTurismo.openModal('@attraction.Name', '@Html.Raw(attraction.Description.Replace("'", "\\'"))', '@attraction.ImageUrl'); return false;">
-                            Descobrir Mais <i class="fas fa-arrow-right"></i>
-                        </a>
+                        <p class="attraction-description">@(attraction.Description.Length > 100 ?
+                                                                                attraction.Description.Substring(0, 100) + "..." : attraction.Description)</p>
+                            <a href="#" class="attraction-link"
+                               onclick="BarraBonitaTurismo.openModal('@attraction.Name', '@Html.Raw(attraction.Description.Replace("'", "\\'"))', '@attraction.ImageUrl'); return false;">
+                                Descobrir Mais <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
-                </div>
-            }
-        </div>
-    </div>
-</section>
-
-<!-- Calendar Section -->
-<section class="section section-white" id="calendario">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 mb-5 mb-lg-0">
-                <span class="section-tag">AGENDA CULTURAL</span>
-                <h2 class="section-title">Calendário<br>Completo de<br>Eventos</h2>
-                <p class="text-secondary fs-5 mb-4">
-                    Não perca nenhuma das grandes celebrações que tornam Barra Bonita o coração pulsante do interior.
-                </p>
-                <div class="d-flex flex-column gap-3">
-                    <div class="d-flex align-items-center gap-3">
-                        <i class="fas fa-calendar-alt" style="color: #FF5A00; font-size: 20px;"></i>
-                        <span class="text-secondary">Atualizado mensalmente</span>
-                    </div>
-                    <div class="d-flex align-items-center gap-3">
-                        <i class="fas fa-ticket-alt" style="color: #FF5A00; font-size: 20px;"></i>
-                        <span class="text-secondary">Eventos gratuitos em sua maioria</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-8">
-                <!-- Carnaval / Festividades -->
-                <div class="event-card mb-4">
-                    <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
-                        <span class="event-month-small">FEV</span>
-                        <span class="event-day-small">Anual</span>
-                    </div>
-                    <div class="event-content">
-                        <span class="event-category" style="color: #FF5A00;">FESTIVIDADES</span>
-                        <h3 class="event-title-small">CarnaBarra</h3>
-                        <p class="event-description">O mais tradicional carnaval de rua da região, com desfiles na avenida da orla e trios elétricos que agitam milhares de turistas.</p>
-                    </div>
-                </div>
-
-                <!-- Festival Gastronômico -->
-                <div class="event-card mb-4">
-                    <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
-                        <span class="event-month-small">JUL</span>
-                        <span class="event-day-small">10-31</span>
-                    </div>
-                    <div class="event-content">
-                        <span class="event-category" style="color: #FF5A00;">GASTRONOMIA</span>
-                        <h3 class="event-title-small">Festival de Inverno & Festival do Peixe</h3>
-                        <p class="event-description">Gastronomia caipira refinada, shows de MPB e Jazz e a famosa feira de malhas e artesanatos na Praça do Teleférico.</p>
-                    </div>
-                </div>
-
-                <!-- Festa do Rio / Religioso -->
-                <div class="event-card mb-4">
-                    <div class="event-date-small" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">
-                        <span class="event-month-small">AGO</span>
-                        <span class="event-day-small">15</span>
-                    </div>
-                    <div class="event-content">
-                        <span class="event-category" style="color: #8B5CF6;">RELIGIOSO</span>
-                        <h3 class="event-title-small">Festa do Rio - Nossa Sra dos Navegantes</h3>
-                        <p class="event-description">Procissão fluvial emocionante com centenas de barcos decorados, missa campal e queima de fogos sobre o espelho d'água.</p>
-                    </div>
-                </div>
-
-                <!-- Semana Náutica / Esporte -->
-                <div class="event-card mb-4">
-                    <div class="event-date-small" style="background: linear-gradient(135deg, #0EA5E9, #0C8BC8);">
-                        <span class="event-month-small">SET</span>
-                        <span class="event-day-small">07</span>
-                    </div>
-                    <div class="event-content">
-                        <span class="event-category" style="color: #0EA5E9;">ESPORTE & CIDADANIA</span>
-                        <h3 class="event-title-small">Semana Náutica</h3>
-                        <p class="event-description">Competições de canoagem, remo e regatas de vela, celebrando a independência com muita adrenalina nas águas.</p>
-                    </div>
-                </div>
-
-                <!-- Natal -->
-                <div class="event-card mb-4">
-                    <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
-                        <span class="event-month-small">DEZ</span>
-                        <span class="event-day-small">20-25</span>
-                    </div>
-                    <div class="event-content">
-                        <span class="event-category" style="color: #FF5A00;">NATAL</span>
-                        <h3 class="event-title-small">Natal Iluminado nas Águas</h3>
-                        <p class="event-description">A chegada do Papai Noel de barco, árvores flutuantes e toda a orla decorada com milhões de microlâmpadas de LED.</p>
-                    </div>
-                </div>
+                }
             </div>
         </div>
-    </div>
-</section>
+    </section>
 
-<!-- Hospitality Section - Com Imagens -->
-<section class="section section-light" id="hospitalidade">
-    <div class="container">
-        <div class="text-center mb-5">
-            <span class="section-tag">HOSPEDAGEM & GASTRONOMIA</span>
-            <h2 class="section-title">Onde a Experiência Acontece</h2>
-            <div class="section-divider"></div>
-        </div>
-
-        <div class="row g-5">
-            <!-- Rede Hoteleira -->
-            <div class="col-lg-6">
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="hospitality-icon">
-                        <i class="fas fa-hotel fa-2x" style="color: #FF5A00;"></i>
-                    </div>
-                    <h3 class="hospitality-section-title mb-0">Rede Hoteleira</h3>
-                </div>
-                
-                <div class="hospitality-grid">
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/164/400/200" alt="Hotel Estância" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Hotel Estância Barra Bonita</h4>
-                            <p class="hospitality-card-description">Referência em lazer com parque aquático completo.</p>
-                            <span class="hospitality-card-tag">RESORT DE LAZER</span>
+    <!-- Calendar Section -->
+    <section class="section section-white" id="calendario">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-5 mb-lg-0">
+                    <span class="section-tag">AGENDA CULTURAL</span>
+                    <h2 class="section-title">Calendário<br>Completo de<br>Eventos</h2>
+                    <p class="text-secondary fs-5 mb-4">
+                        Não perca nenhuma das grandes celebrações que tornam Barra Bonita o coração pulsante do interior.
+                    </p>
+                    <div class="d-flex flex-column gap-3">
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fas fa-calendar-alt" style="color: #FF5A00; font-size: 20px;"></i>
+                            <span class="text-secondary">Atualizado mensalmente</span>
                         </div>
-                    </div>
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/259/400/200" alt="Pousada da Orla" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Pousada'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Pousada da Orla</h4>
-                            <p class="hospitality-card-description">Vista privilegiada para o rio e café da manhã colonial.</p>
-                            <span class="hospitality-card-tag">POUSADA BOUTIQUE</span>
-                        </div>
-                    </div>
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/179/400/200" alt="Hotel Turi" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Hotel Turi</h4>
-                            <p class="hospitality-card-description">Localização central, ideal para executivos e turismo histórico.</p>
-                            <span class="hospitality-card-tag">HOTEL EXECUTIVO</span>
-                        </div>
-                    </div>
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/174/400/200" alt="Hotel Beira Rio" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Hotel Beira Rio</h4>
-                            <p class="hospitality-card-description">Acesso direto ao deck e passeios exclusivos de lancha.</p>
-                            <span class="hospitality-card-tag">HOTEL TURÍSTICO</span>
+                        <div class="d-flex align-items-center gap-3">
+                            <i class="fas fa-ticket-alt" style="color: #FF5A00; font-size: 20px;"></i>
+                            <span class="text-secondary">Eventos gratuitos em sua maioria</span>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Guia Gastronômico -->
-            <div class="col-lg-6">
-                <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="hospitality-icon">
-                        <i class="fas fa-utensils fa-2x" style="color: #FF5A00;"></i>
-                    </div>
-                    <h3 class="hospitality-section-title mb-0">Guia Gastronômico</h3>
-                </div>
-                
-                <div class="hospitality-grid">
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/108/400/200" alt="Restaurante do Porto" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Restaurante do Porto</h4>
-                            <p class="hospitality-card-description">Especialista no tradicional "Peixe na Telha" e porções de lambari frito.</p>
-                            <span class="hospitality-card-tag">Aberto Almoço/Jantar</span>
+                <div class="col-lg-8">
+                    <!-- Carnaval / Festividades -->
+                    <div class="event-card mb-4">
+                        <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
+                            <span class="event-month-small">FEV</span>
+                            <span class="event-day-small">Anual</span>
                         </div>
-                    </div>
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/132/400/200" alt="Varanda Grill Orla" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Varanda Grill Orla</h4>
-                            <p class="hospitality-card-description">Carnes nobres com a melhor vista para a eclusagem dos navios.</p>
-                            <span class="hospitality-card-tag">Música ao Vivo</span>
+                        <div class="event-content">
+                            <span class="event-category" style="color: #FF5A00;">FESTIVIDADES</span>
+                            <h3 class="event-title-small">CarnaBarra</h3>
+                            <p class="event-description">O mais tradicional carnaval de rua da região, com desfiles na
+                                avenida da orla e trios elétricos que agitam milhares de turistas.</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/120/400/200" alt="Cantina da Praça" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Cantina'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Cantina da Praça</h4>
-                            <p class="hospitality-card-description">Massas artesanais e pizzas em forno a lenha no centro histórico.</p>
-                            <span class="hospitality-card-tag">Atmosfera Familiar</span>
-                        </div>
-                    </div>
-                    <div class="hospitality-card">
-                        <img src="https://picsum.photos/id/111/400/200" alt="Doceria Tietê" class="hospitality-card-image" onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Doceria'">
-                        <div class="hospitality-card-content">
-                            <h4 class="hospitality-card-title">Doceria Tietê</h4>
-                            <p class="hospitality-card-description">Os melhores doces caseiros, compotas e café com grãos locais.</p>
-                            <span class="hospitality-card-tag">Café & Sobremesa</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
-<!-- FAQ Section -->
-<section class="section section-white" id="faq">
-    <div class="container" style="max-width: 800px;">
-        <div class="text-center">
-            <span class="section-tag">Suporte ao Turista</span>
-            <h2 class="section-title">Dúvidas Frequentes</h2>
-            <div class="section-divider"></div>
-        </div>
+                        <!-- Festival Gastronômico -->
+                        <div class="event-card mb-4">
+                            <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
+                                <span class="event-month-small">JUL</span>
+                                <span class="event-day-small">10-31</span>
+                            </div>
+                            <div class="event-content">
+                                <span class="event-category" style="color: #FF5A00;">GASTRONOMIA</span>
+                                <h3 class="event-title-small">Festival de Inverno & Festival do Peixe</h3>
+                                <p class="event-description">Gastronomia caipira refinada, shows de MPB e Jazz e a famosa feira
+                                    de malhas e artesanatos na Praça do Teleférico.</p>
+                                </div>
+                            </div>
 
-        @foreach (var faq in faqs)
-        {
-            <div class="faq-item">
-                <button class="faq-question">
-                    @faq.Question
-                    <span class="faq-icon">+</span>
-                </button>
-                <div class="faq-answer">
-                    @faq.Answer
-                </div>
-            </div>
-        }
-    </div>
-</section>
+                            <!-- Festa do Rio / Religioso -->
+                            <div class="event-card mb-4">
+                                <div class="event-date-small" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">
+                                    <span class="event-month-small">AGO</span>
+                                    <span class="event-day-small">15</span>
+                                </div>
+                                <div class="event-content">
+                                    <span class="event-category" style="color: #8B5CF6;">RELIGIOSO</span>
+                                    <h3 class="event-title-small">Festa do Rio - Nossa Sra dos Navegantes</h3>
+                                    <p class="event-description">Procissão fluvial emocionante com centenas de barcos decorados,
+                                        missa campal e queima de fogos sobre o espelho d'água.</p>
+                                    </div>
+                                </div>
 
-<!-- Modal -->
-<div class="modal-custom" id="modal">
-    <div class="modal-content-custom">
-        <button class="modal-close">&times;</button>
-        <img class="modal-image" id="modalImage" src="" alt="">
-        <h3 class="modal-title" id="modalTitle"></h3>
-        <p id="modalDesc" class="text-secondary"></p>
-    </div>
-</div>
+                                <!-- Semana Náutica / Esporte -->
+                                <div class="event-card mb-4">
+                                    <div class="event-date-small" style="background: linear-gradient(135deg, #0EA5E9, #0C8BC8);">
+                                        <span class="event-month-small">SET</span>
+                                        <span class="event-day-small">07</span>
+                                    </div>
+                                    <div class="event-content">
+                                        <span class="event-category" style="color: #0EA5E9;">ESPORTE & CIDADANIA</span>
+                                        <h3 class="event-title-small">Semana Náutica</h3>
+                                        <p class="event-description">Competições de canoagem, remo e regatas de vela, celebrando a
+                                            independência com muita adrenalina nas águas.</p>
+                                        </div>
+                                    </div>
 
-<!-- Botão Voltar ao Topo -->
-<button id="scrollToTopBtn" class="scroll-to-top" title="Voltar ao topo">
-    <i class="fas fa-arrow-up"></i>
-</button>
+                                    <!-- Natal -->
+                                    <div class="event-card mb-4">
+                                        <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
+                                            <span class="event-month-small">DEZ</span>
+                                            <span class="event-day-small">20-25</span>
+                                        </div>
+                                        <div class="event-content">
+                                            <span class="event-category" style="color: #FF5A00;">NATAL</span>
+                                            <h3 class="event-title-small">Natal Iluminado nas Águas</h3>
+                                            <p class="event-description">A chegada do Papai Noel de barco, árvores flutuantes e toda a orla
+                                                decorada com milhões de microlâmpadas de LED.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
 
-<!-- Footer -->
-<footer class="footer" id="contato">
-    <div class="container">
-        <div class="row g-4">
-            <div class="col-lg-5">
-                <a href="#" class="footer-logo">
-    <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 40px; width: auto;">
-</a>
-                <p class="mt-4">Secretaria Municipal de Turismo e Cultura. Promovendo o desenvolvimento sustentável de Barra Bonita.</p>
-            </div>
-            <div class="col-lg-3">
-                <h4 class="footer-title">Navegação</h4>
-                <div class="footer-divider"></div>
-                <ul class="footer-links">
-                    <li><a href="#hero">Início</a></li>
-                    <li><a href="#historia">Nossa História</a></li>
-                    <li><a href="#atracoes">Atrações</a></li>
-                    <li><a href="#calendario">Eventos</a></li>
-                </ul>
-            </div>
-            <div class="col-lg-4">
-                <h4 class="footer-title">Atendimento</h4>
-                <div class="footer-divider"></div>
-                <div class="footer-contact">
-                    <i class="fas fa-phone"></i>
-                    <div><strong>Telefone</strong><br>(14) 3604-4000</div>
-                </div>
-                <div class="footer-contact">
-                    <i class="fas fa-envelope"></i>
-                    <div><strong>E-mail</strong><br>turismo@barrabonita.sp.gov.br</div>
-                </div>
-                <div class="footer-contact">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div><strong>Endereço</strong><br>Praça Waldemar Lopes Ferraz, s/n<br>Barra Bonita - SP</div>
-                </div>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>© 2026 Estância Turística de Barra Bonita. Todos os direitos reservados.</p>
-        </div>
-    </div>
-</footer>
+                        <!-- Hospitality Section - Com Imagens -->
+                        <section class="section section-light" id="hospitalidade">
+                            <div class="container">
+                                <div class="text-center mb-5">
+                                    <span class="section-tag">HOSPEDAGEM & GASTRONOMIA</span>
+                                    <h2 class="section-title">Onde a Experiência Acontece</h2>
+                                    <div class="section-divider"></div>
+                                </div>
+
+                                <div class="row g-5">
+                                    <!-- Rede Hoteleira -->
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center gap-3 mb-4">
+                                            <div class="hospitality-icon">
+                                                <i class="fas fa-hotel fa-2x" style="color: #FF5A00;"></i>
+                                            </div>
+                                            <h3 class="hospitality-section-title mb-0">Rede Hoteleira</h3>
+                                        </div>
+
+                                        <div class="hospitality-grid">
+                                            <div class="hospitality-card">
+                                                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/6b/64/88/hotel-estancia-barra.jpg?w=900&h=-1&s=1"
+                                                     alt="Hotel Estância" class="hospitality-card-image"
+                                                     onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
+                                                <div class="hospitality-card-content">
+                                                    <h4 class="hospitality-card-title">Hotel Estância</h4>
+                                                    <p class="hospitality-card-description">O Hotel Estância Barra Bonita é um resort no
+                                                        interior de São Paulo conhecido pela ampla área verde, piscinas aquecidas e estrutura de
+                                                        lazer para famílias. O hotel oferece chalés confortáveis, parque aquático com toboáguas,
+                                                        quadras esportivas, recreação infantil e restaurante com refeições em estilo buffet. É
+                                                        um destino bastante procurado para descanso, férias e eventos corporativos.</p>
+                                                        <span class="hospitality-card-tag">RESORT DE LAZER</span>
+                                                    </div>
+                                                </div>
+                                                <div class="hospitality-card">
+                                                    <img src="https://scontent-gru1-1.xx.fbcdn.net/v/t39.30808-6/473833853_492722467194224_2047474964119092719_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=Qt2mE1au9WEQ7kNvwEMQIvI&_nc_oc=AdrTI0e7NXqAR8NspRLUfkC3TQt4l0-9gLTgAnYpdBOj1-7lW49o8NHBroVm4WSiYEo&_nc_zt=23&_nc_ht=scontent-gru1-1.xx&_nc_gid=KHf9qA1tXEJkAeL3pgLc7w&_nc_ss=7b289&oh=00_Af5I18H817AZlML3uNEzMrrUBbMo--4D7AmvVXwIkSSmtA&oe=6A0D9350"
+                                                         alt="Pousada da Orla" class="hospitality-card-image"
+                                                         onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Pousada'">
+                                                    <div class="hospitality-card-content">
+                                                        <h4 class="hospitality-card-title">Hotel Barra Bonita</h4>
+                                                        <p class="hospitality-card-description">Hotel turístico urbano e tradicional de Barra
+                                                            Bonita, localizado na região central da cidade, próximo ao rio Tietê, à eclusa turística
+                                                            e aos principais pontos gastronômicos e comerciais. É bastante procurado por turistas,
+                                                            famílias e visitantes de negócios devido à localização estratégica e ao fácil acesso às
+                                                            atrações turísticas da estância. O empreendimento oferece hospedagem prática e
+                                                            confortável, com ambiente familiar e estrutura voltada ao turismo regional. É
+                                                            considerado uma importante referência de hospedagem da cidade, atendendo visitantes que
+                                                            buscam lazer, passeios fluviais e estadias de curta permanência.</p>
+                                                            <span class="hospitality-card-tag">HOTEL TRADICIONAL</span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="hospitality-card">
+                                                        <img src="https://www.refugiosnointerior.com.br/sistema/_lib/file/img/lugar/2227/img8.jpg"
+                                                             alt="Hotel Beira Rio" class="hospitality-card-image"
+                                                             onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
+                                                        <div class="hospitality-card-content">
+                                                            <h4 class="hospitality-card-title">Hotel Beira Rio</h4>
+                                                            <p class="hospitality-card-description">Hotel tradicional e bastante conhecido de Barra
+                                                                Bonita, localizado às margens do rio Tietê e próximo aos principais pontos turísticos da
+                                                                cidade. Destaca-se pela localização privilegiada, com fácil acesso aos passeios
+                                                                fluviais, à eclusa turística e à região gastronômica central. É muito utilizado por
+                                                                turistas e visitantes que buscam praticidade, turismo regional e contato com o cenário
+                                                                turístico da estância.</p>
+                                                                <span class="hospitality-card-tag">HOTEL TURÍSTICO</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- Guia Gastronômico -->
+                                                <div class="col-lg-6">
+                                                    <div class="d-flex align-items-center gap-3 mb-4">
+                                                        <div class="hospitality-icon">
+                                                            <i class="fas fa-utensils fa-2x" style="color: #FF5A00;"></i>
+                                                        </div>
+                                                        <h3 class="hospitality-section-title mb-0">Guia Gastronômico</h3>
+                                                    </div>
+
+                                                    <div class="hospitality-grid">
+                                                        <div class="hospitality-card">
+                                                            <img src="https://lh3.googleusercontent.com/p/AF1QipPsb__ecfxnIRRL3geOZ-0fENcPWvHfgYQVXFP7=s680-w680-h510-rw"
+                                                                 alt="Restaurante do Porto" class="hospitality-card-image"
+                                                                 onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
+                                                            <div class="hospitality-card-content">
+                                                                <h4 class="hospitality-card-title">Restaurante Estação da Barra</h4>
+                                                                <p class="hospitality-card-description">O Restaurante Estação da Barra, localizado em Barra
+                                                                    Bonita (SP), é um estabelecimento inserido no setor de serviços de alimentação fora do
+                                                                    lar, voltado ao fornecimento de refeições completas para o público local e turístico.
+                                                                    Seu funcionamento concentra-se principalmente no serviço de almoço, com cardápio baseado
+                                                                    na culinária brasileira, reunindo preparações que combinam aspectos tradicionais e
+                                                                    contemporâneos. O restaurante caracteriza-se pela oferta de pratos variados e
+                                                                    acessíveis, atendendo à demanda por refeições cotidianas e executivas. Assim, integra o
+                                                                    segmento de restauração, desempenhando papel importante no atendimento gastronômico da
+                                                                    região.</p>
+                                                                    <span class="hospitality-card-tag">SERVIÇO DE ALIMENTAÇÃO</span>
+                                                                </div>
+                                                            </div>
+                                                            <div class="hospitality-card">
+                                                                <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFSN9FI6H76gUvP6dw6DLslbE58V3I1Eqw-l_GVRY6xgdFLHLIoqvy_11zsHODhxEFGcm5Mr62xVVJioG_yBchP3gcgIlbyPzbeP-5iBJ6Dgqk-6yTSd4kmPWFXEotCI6fkFWzMNQBlaeQ=s680-w680-h510-rw"
+                                                                     alt="Varanda Grill Orla" class="hospitality-card-image"
+                                                                     onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
+                                                                <div class="hospitality-card-content">
+                                                                    <h4 class="hospitality-card-title">Barbina</h4>
+                                                                    <p class="hospitality-card-description">A Barbina é um estabelecimento do segmento de
+                                                                        gastronomia comercial que integra restaurante e choperia, caracterizando-se como um
+                                                                        espaço voltado à alimentação e ao convívio social. Seu funcionamento combina a oferta de
+                                                                        refeições, petiscos e porções com o serviço de bebidas, especialmente chopp, atendendo a
+                                                                        diferentes momentos de consumo, como refeições e encontros de lazer. O empreendimento
+                                                                        destaca-se por seu caráter híbrido entre restaurante e bar, inserindo-se na gastronomia
+                                                                        de lazer e socialização, sendo frequentado tanto por moradores locais quanto por
+                                                                        visitantes da região de Barra Bonita.</p>
+                                                                        <span class="hospitality-card-tag">RESTAURANTE E CHOPERIA</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="hospitality-card">
+                                                                    <img src="https://scontent-gru2-1.xx.fbcdn.net/v/t39.30808-6/476119255_9319443201431862_2903413000594632076_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=-b-bqQKm84kQ7kNvwGwy3Oh&_nc_oc=AdonqRjgP9_5xqLJMZWWoGWYogb2R-k081XEriP0z-8FimT8DoHsAfqc9kzZoX8q0o4&_nc_zt=23&_nc_ht=scontent-gru2-1.xx&_nc_gid=Gb8hzrv03hUhe-gtOPe9Kw&_nc_ss=7b289&oh=00_Af6tle5ctD1zwxrvUWTHmeOiaugTVL91EOecSEEHaGVDvA&oe=6A0D9C82"
+                                                                         alt="Cantina da Praça" class="hospitality-card-image"
+                                                                         onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Cantina'">
+                                                                    <div class="hospitality-card-content">
+                                                                        <h4 class="hospitality-card-title">Dona Boleira</h4>
+                                                                        <p class="hospitality-card-description">A Dona Boleira de Barra Bonita (SP) é uma
+                                                                            confeitaria especializada na produção de bolos artesanais de estilo caseiro,
+                                                                            fundamentada na valorização de receitas tradicionais da confeitaria brasileira. Seu
+                                                                            processo produtivo prioriza técnicas artesanais, com foco em textura, frescor e sabor
+                                                                            característico de preparações domésticas. O estabelecimento atende tanto ao consumo
+                                                                            diário quanto à produção sob encomenda, oferecendo opções de bolos simples e recheados,
+                                                                            sendo reconhecido como referência local no segmento de confeitaria artesanal.</p>
+                                                                            <span class="hospitality-card-tag">CAFÉ & SOBREMESA</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+
+                                            <!-- FAQ Section -->
+                                            <section class="section section-white" id="faq">
+                                                <div class="container" style="max-width: 800px;">
+                                                    <div class="text-center">
+                                                        <span class="section-tag">Suporte ao Turista</span>
+                                                        <h2 class="section-title">Dúvidas Frequentes</h2>
+                                                        <div class="section-divider"></div>
+                                                    </div>
+
+                                                    @foreach (var faq in faqs)
+                                                    {
+                                                        <div class="faq-item">
+                                                            <button class="faq-question">
+                                                                @faq.Question
+                                                                <span class="faq-icon">+</span>
+                                                            </button>
+                                                            <div class="faq-answer">
+                                                                @faq.Answer
+                                                            </div>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </section>
+
+                                            <!-- Modal -->
+                                            <div class="modal-custom" id="modal">
+                                                <div class="modal-content-custom">
+                                                    <button class="modal-close">&times;</button>
+                                                    <img class="modal-image" id="modalImage" src="" alt="">
+                                                    <h3 class="modal-title" id="modalTitle"></h3>
+                                                    <p id="modalDesc" class="text-secondary"></p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Botão Voltar ao Topo -->
+                                            <button id="scrollToTopBtn" class="scroll-to-top" title="Voltar ao topo">
+                                                <i class="fas fa-arrow-up"></i>
+                                            </button>
+
+                                            <!-- Footer -->
+                                            <footer class="footer" id="contato">
+                                                <div class="container">
+                                                    <div class="row g-4">
+                                                        <div class="col-lg-5">
+                                                            <a href="#" class="footer-logo">
+                                                                <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 40px; width: auto;">
+                                                            </a>
+                                                            <p class="mt-4">Secretaria Municipal de Turismo e Cultura. Promovendo o desenvolvimento sustentável de
+                                                                Barra Bonita.</p>
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <h4 class="footer-title">Navegação</h4>
+                                                                <div class="footer-divider"></div>
+                                                                <ul class="footer-links">
+                                                                    <li><a href="#hero">Início</a></li>
+                                                                    <li><a href="#historia">Nossa História</a></li>
+                                                                    <li><a href="#atracoes">Atrações</a></li>
+                                                                    <li><a href="#calendario">Eventos</a></li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-lg-4">
+                                                                <h4 class="footer-title">Atendimento</h4>
+                                                                <div class="footer-divider"></div>
+                                                                <div class="footer-contact">
+                                                                    <i class="fas fa-phone"></i>
+                                                                    <div><strong>Telefone</strong><br>(14) 3604-4000</div>
+                                                                </div>
+                                                                <div class="footer-contact">
+                                                                    <i class="fas fa-envelope"></i>
+                                                                    <div><strong>E-mail</strong><br>turismo@barrabonita.sp.gov.br</div>
+                                                                </div>
+                                                                <div class="footer-contact">
+                                                                    <i class="fas fa-map-marker-alt"></i>
+                                                                    <div><strong>Endereço</strong><br>Praça Waldemar Lopes Ferraz, s/n<br>Barra Bonita - SP</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="footer-bottom">
+                                                            <p>© 2026 Estância Turística de Barra Bonita. Todos os direitos reservados.</p>
+                                                        </div>
+                                                    </div>
+                                                </footer>
