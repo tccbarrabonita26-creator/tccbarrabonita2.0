@@ -122,8 +122,7 @@
                         <h3 class="attraction-title">@attraction.Name</h3>
                         <p class="attraction-description">@(attraction.Description.Length > 100 ?
                                                                                 attraction.Description.Substring(0, 100) + "..." : attraction.Description)</p>
-                            <a href="#" class="attraction-link"
-                               onclick="BarraBonitaTurismo.openModal('@attraction.Name', '@Html.Raw(attraction.Description.Replace("'", "\\'"))', '@attraction.ImageUrl'); return false;">
+                            <a href="/Home/AttractionDetail/@attraction.Id" class="attraction-link">
                                 Descobrir Mais <i class="fas fa-arrow-right"></i>
                             </a>
                         </div>
@@ -305,7 +304,7 @@
 
                                                     <div class="hospitality-grid">
                                                         <div class="hospitality-card">
-                                                            <img src="https://lh3.googleusercontent.com/p/AF1QipPsb__ecfxnIRRL3geOZ-0fENcPWvHfgYQVXFP7=s680-w680-h510-rw"
+                                                            <img src="https://scontent-gru1-1.xx.fbcdn.net/v/t39.30808-6/480803547_1371975534125614_2586588712840891556_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx2048x1536&ctp=s960x960&_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=CpaQUQwsS-EQ7kNvwGofF4C&_nc_oc=AdrhAY9rCRk37bh_iTdD0DDNi8pLmKZCpqJCFiva9BTs1YytLeZGghDJuYDDUB8iU2Q&_nc_zt=23&_nc_ht=scontent-gru1-1.xx&_nc_gid=n4DVoIkYH2tL_3pnEqqw-A&_nc_ss=7b289&oh=00_Af8_qa454KrodTIToSogOuIx6EUb9OMzJym9Hx27zJ2Hmw&oe=6A327524"
                                                                  alt="Restaurante Estação da Barra" class="hospitality-card-image"
                                                                  onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
                                                             <div class="hospitality-card-content">
@@ -323,7 +322,7 @@
                                                                 </div>
                                                             </div>
                                                             <div class="hospitality-card">
-                                                                <img src="https://lh3.googleusercontent.com/gps-cs-s/APNQkAFSN9FI6H76gUvP6dw6DLslbE58V3I1Eqw-l_GVRY6xgdFLHLIoqvy_11zsHODhxEFGcm5Mr62xVVJioG_yBchP3gcgIlbyPzbeP-5iBJ6Dgqk-6yTSd4kmPWFXEotCI6fkFWzMNQBlaeQ=s680-w680-h510-rw"
+                                                                <img src="https://scontent-gru1-2.xx.fbcdn.net/v/t39.30808-6/486302011_1473480846969522_5892712531336375804_n.jpg?stp=dst-jpg_tt6&cstp=mx1651x884&ctp=s960x960&_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=5C0o2N3jwiAQ7kNvwGM7jYb&_nc_oc=AdopXvl3riXyfPVkbrxbi5AS3pHbMBCJW5T6B54aVrFnitacCSwvWS2_YTnaTDEIcJ8&_nc_zt=23&_nc_ht=scontent-gru1-2.xx&_nc_gid=memVS8zem85JBOqpqEOwpQ&_nc_ss=7b289&oh=00_Af-n2YMGjyO2JTDA5zBV_1vuWtJQdzxiDvi4Ajd1uqDd6Q&oe=6A324504"
                                                                      alt="Barbina" class="hospitality-card-image"
                                                                      onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
                                                                 <div class="hospitality-card-content">
@@ -409,8 +408,7 @@
                                                             <a href="#" class="footer-logo">
                                                                 <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 40px; width: auto;">
                                                             </a>
-                                                            <p class="mt-4">Secretaria Municipal de Turismo e Cultura. Promovendo o desenvolvimento sustentável de
-                                                                Barra Bonita.</p>
+                                                            <p class="mt-4">TCC Barra Bonita Tour. Promovendo o desenvolvimento sustentável de Barra Bonita.</p>
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <h4 class="footer-title">Navegação</h4>
@@ -431,16 +429,16 @@
                                                                 </div>
                                                                 <div class="footer-contact">
                                                                     <i class="fas fa-envelope"></i>
-                                                                    <div><strong>E-mail</strong><br>turismo@barrabonita.sp.gov.br</div>
+                                                                    <div><strong>E-mail</strong><br>tccbarrabonita26@gmail.com</div>
                                                                 </div>
                                                                 <div class="footer-contact">
                                                                     <i class="fas fa-map-marker-alt"></i>
-                                                                    <div><strong>Endereço</strong><br>Praça Waldemar Lopes Ferraz, s/n<br>Barra Bonita - SP</div>
+                                                                    <div><strong>Endereço</strong><br>Etec Comendador João Rays, s/n<br>Barra Bonita - SP</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="footer-bottom">
-                                                            <p>© 2026 Estância Turística de Barra Bonita. Todos os direitos reservados.</p>
+                                                            <p>© 2026 TCC Barra Bonita Tour. Todos os direitos reservados.</p>
                                                         </div>
                                                     </div>
                                                 </footer>

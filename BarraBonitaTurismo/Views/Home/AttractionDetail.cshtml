@@ -1,0 +1,214 @@
+@model BarraBonitaTurismo.Models.Attraction
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = Model.Name + " - Barra Bonita Turismo";
+    var related = ViewBag.Related as List<BarraBonitaTurismo.Models.Attraction>;
+}
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="~/img/Logo Horizontal 2.png" alt="Barra Bonita" style="height: 50px; width: auto;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link-custom" href="/#hero">INÍCIO</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#historia">HISTÓRIA</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#atracoes">ATRAÇÕES</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#calendario">CALENDÁRIO</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#hospitalidade">HOSPITALIDADE</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#faq">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#contato">CONTATO</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Barra de navegação de volta -->
+<div style="background: var(--bg-light); border-bottom: 1px solid var(--gray-border); padding: 12px 0;">
+    <div class="container">
+        <a href="/#atracoes" class="detail-back-link" style="color: var(--text-dark);">
+            <i class="fas fa-arrow-left"></i> Voltar para Atrações
+        </a>
+    </div>
+</div>
+
+<!-- Imagem da atração -->
+<div class="attraction-detail-hero-img" style="background-image: url('@Model.ImageUrl'); background-size: cover; background-position: center;"
+     onerror="this.style.backgroundImage='url(https://picsum.photos/id/@(Model.Id+10)/1400/500)'">
+</div>
+
+<!-- Conteúdo principal -->
+<section class="section section-white" style="padding: 80px 0;">
+    <div class="container">
+        <div class="row g-5">
+
+            <!-- Coluna principal -->
+            <div class="col-lg-8">
+                <span class="section-tag">Sobre este local</span>
+                <h2 class="section-title" style="font-size: clamp(1.8rem, 4vw, 2.8rem);">@Model.Name</h2>
+                <div class="section-divider" style="margin-left: 0;"></div>
+
+                <p class="detail-description">@Model.Description</p>
+
+                @if (!string.IsNullOrEmpty(Model.FunFact))
+                {
+                    <div class="detail-funfact">
+                        <i class="fas fa-lightbulb detail-funfact-icon"></i>
+                        <div>
+                            <strong>Você sabia?</strong>
+                            <p class="mb-0 mt-1">@Model.FunFact</p>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Sidebar com informações práticas -->
+            <div class="col-lg-4">
+                <div class="detail-info-card">
+                    <h4 class="detail-info-title">
+                        <i class="fas fa-info-circle me-2" style="color: var(--primary);"></i>
+                        Informações Práticas
+                    </h4>
+                    <hr style="border-color: var(--gray-border);">
+
+                    <div class="detail-info-row">
+                        <div class="detail-info-icon">
+                            <i class="fas fa-tag"></i>
+                        </div>
+                        <div>
+                            <span class="detail-info-label">Categoria</span>
+                            <span class="detail-info-value">@Model.Category</span>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.Address))
+                    {
+                        <div class="detail-info-row">
+                            <div class="detail-info-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <span class="detail-info-label">Endereço</span>
+                                <span class="detail-info-value">@Model.Address</span>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.Schedule))
+                    {
+                        <div class="detail-info-row">
+                            <div class="detail-info-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div>
+                                <span class="detail-info-label">Horário de Funcionamento</span>
+                                <span class="detail-info-value">@Model.Schedule</span>
+                            </div>
+                        </div>
+                    }
+
+                    @if (Model.Latitude.HasValue && Model.Longitude.HasValue)
+                    {
+                        <div class="detail-info-row">
+                            <div class="detail-info-icon">
+                                <i class="fas fa-compass"></i>
+                            </div>
+                            <div>
+                                <span class="detail-info-label">Coordenadas</span>
+                                <span class="detail-info-value">@Model.Latitude.Value.ToString("F4"), @Model.Longitude.Value.ToString("F4")</span>
+                            </div>
+                        </div>
+
+                        <a href="https://www.google.com/maps?q=@Model.Latitude,@Model.Longitude"
+                           target="_blank" class="btn-primary-custom d-block text-center mt-4" style="font-size: 15px; padding: 12px 20px;">
+                            <i class="fas fa-map me-2"></i> Ver no Google Maps
+                        </a>
+                    }
+                </div>
+
+                <a href="/#atracoes" class="detail-voltar-btn">
+                    <i class="fas fa-th-large me-2"></i> Ver todas as atrações
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Atrações relacionadas -->
+@if (related != null && related.Any())
+{
+    <section class="section section-light" style="padding: 80px 0;">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-tag">Explore Mais</span>
+                <h2 class="section-title">Atrações Relacionadas</h2>
+                <div class="section-divider"></div>
+            </div>
+
+            <div class="attractions-grid" style="grid-template-columns: repeat(3, 1fr);">
+                @foreach (var item in related)
+                {
+                    <div class="attraction-card" data-category="@item.Category">
+                        <img class="attraction-image" src="@item.ImageUrl" alt="@item.Name"
+                             onerror="this.src='https://picsum.photos/id/@(item.Id+10)/400/300'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">@item.Name</h3>
+                            <p class="attraction-description">@(item.Description.Length > 100 ? item.Description.Substring(0, 100) + "..." : item.Description)</p>
+                            <a href="/Home/AttractionDetail/@item.Id" class="attraction-link">
+                                Descobrir Mais <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Footer -->
+<footer class="footer" id="contato">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <a href="/" class="footer-logo">
+                    <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 40px; width: auto;">
+                </a>
+                <p class="mt-4">TCC Barra Bonita Tour. Promovendo o desenvolvimento sustentável de Barra Bonita.</p>
+            </div>
+            <div class="col-lg-3">
+                <h4 class="footer-title">Navegação</h4>
+                <div class="footer-divider"></div>
+                <ul class="footer-links">
+                    <li><a href="/#hero">Início</a></li>
+                    <li><a href="/#historia">Nossa História</a></li>
+                    <li><a href="/#atracoes">Atrações</a></li>
+                    <li><a href="/#calendario">Eventos</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h4 class="footer-title">Atendimento</h4>
+                <div class="footer-divider"></div>
+                <div class="footer-contact">
+                    <i class="fas fa-phone"></i>
+                    <div><strong>Telefone</strong><br>(14) 3604-4000</div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <div><strong>E-mail</strong><br>tccbarrabonita26@gmail.com</div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div><strong>Endereço</strong><br>Etec Comendador João Rayss/n<br>Barra Bonita - SP</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Estância Turística de Barra Bonita. Todos os direitos reservados.</p>
+        </div>
+    </div>
+</footer>

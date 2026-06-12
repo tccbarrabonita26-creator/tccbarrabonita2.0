@@ -37,6 +37,34 @@ namespace BarraBonitaTurismo.Controllers
         }
 
         [HttpGet]
+        public IActionResult AttractionDetail(int id)
+        {
+            var all = _dataService.GetAttractions();
+            var attraction = all.FirstOrDefault(a => a.Id == id);
+            if (attraction == null)
+                return NotFound();
+
+            // Atrações relacionadas: mesma categoria, exceto a atual (máx 3)
+            var related = all
+                .Where(a => a.Id != id && a.Category == attraction.Category)
+                .Take(3)
+                .ToList();
+
+            // Se não houver suficientes na mesma categoria, completa com outras
+            if (related.Count < 3)
+            {
+                var others = all
+                    .Where(a => a.Id != id && a.Category != attraction.Category)
+                    .Take(3 - related.Count)
+                    .ToList();
+                related.AddRange(others);
+            }
+
+            ViewBag.Related = related;
+            return View(attraction);
+        }
+
+        [HttpGet]
         public IActionResult GetAttractionDetail(int id)
         {
             var attraction = _dataService.GetAttractions().FirstOrDefault(a => a.Id == id);
