@@ -9,6 +9,20 @@
     var allAttractions = ViewBag.AllAttractions as List<Attraction>;
     var faqs = ViewBag.FAQs as List<FAQ>;
     var guideItemsByType = ViewBag.GuideItemsByType as Dictionary<string, List<GuideItem>>;
+
+    // Dados das atrações com coordenadas, prontos para o mapa interativo
+    var mapMarkers = allAttractions
+        .Where(a => a.Latitude.HasValue && a.Longitude.HasValue)
+        .Select(a => new
+        {
+            id = a.Id,
+            name = a.Name,
+            category = a.Category,
+            lat = a.Latitude.Value,
+            lng = a.Longitude.Value,
+            url = $"/Home/AttractionDetail/{a.Id}"
+        });
+    var mapMarkersJson = System.Text.Json.JsonSerializer.Serialize(mapMarkers);
 }
 
 <!-- Navbar -->
@@ -25,6 +39,7 @@
                 <li class="nav-item"><a class="nav-link-custom" href="#hero">INÍCIO</a></li>
                 <li class="nav-item"><a class="nav-link-custom" href="#historia">HISTÓRIA</a></li>
                 <li class="nav-item"><a class="nav-link-custom" href="#atracoes">ATRAÇÕES</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="#mapa">MAPA</a></li>
                 <li class="nav-item"><a class="nav-link-custom" href="#calendario">CALENDÁRIO</a></li>
                 <li class="nav-item"><a class="nav-link-custom" href="#hospitalidade">HOSPITALIDADE</a></li>
                 <li class="nav-item"><a class="nav-link-custom" href="#faq">FAQ</a></li>
@@ -104,6 +119,14 @@
             <div class="section-divider"></div>
         </div>
 
+        <!-- Busca -->
+        <div class="attractions-search-wrapper">
+            <div class="attractions-search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="attractionSearch" placeholder="Buscar atração por nome ou descrição...">
+            </div>
+        </div>
+
         <div class="filters-container">
             <button class="filter-btn filter-btn-active" data-filter="all">Todas</button>
             <button class="filter-btn filter-btn-inactive" data-filter="Náutica">Náutica</button>
@@ -112,16 +135,50 @@
             <button class="filter-btn filter-btn-inactive" data-filter="Lazer">Lazer</button>
         </div>
 
-        <div class="attractions-grid">
-            @foreach (var attraction in allAttractions)
+        <p id="noResultsMsg" class="text-center text-secondary" style="display:none; margin-top: 20px;">
+            Nenhuma atração encontrada com esses critérios.
+        </p>
+
+        <!-- Grupo sempre visível: primeiros 8 cards -->
+        <div class="attractions-grid" id="gridPrimary">
+            @foreach (var attraction in allAttractions.Take(8))
             {
-                <div class="attraction-card" data-category="@attraction.Category">
+                <div class="attraction-card" data-category="@attraction.Category" data-id="@attraction.Id"
+                     data-name="@attraction.Name.ToLower()" data-desc="@attraction.Description.ToLower()">
                     <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
                          onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
                     <div class="attraction-content">
                         <h3 class="attraction-title">@attraction.Name</h3>
                         <p class="attraction-description">@(attraction.Description.Length > 100 ?
-                                                                                attraction.Description.Substring(0, 100) + "..." : attraction.Description)</p>
+                            attraction.Description.Substring(0, 100) + "..." : attraction.Description)</p>
+                        <a href="/Home/AttractionDetail/@attraction.Id" class="attraction-link">
+                            Descobrir Mais <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @if (allAttractions.Count > 8)
+        {
+            <div class="text-center mt-4" id="verMaisWrapper">
+                <button id="verMaisBtn" class="btn-outline-custom">
+                    Ver Mais Atrações <i class="fas fa-chevron-down ms-2"></i>
+                </button>
+            </div>
+
+            <!-- Grupo extra: cards 9 em diante, oculto até clicar em Ver Mais -->
+            <div class="attractions-grid grid-hidden" id="gridExtra" style="margin-top:32px;">
+                @foreach (var attraction in allAttractions.Skip(8))
+                {
+                    <div class="attraction-card" data-category="@attraction.Category" data-id="@attraction.Id"
+                         data-name="@attraction.Name.ToLower()" data-desc="@attraction.Description.ToLower()">
+                        <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
+                             onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
+                        <div class="attraction-content">
+                            <h3 class="attraction-title">@attraction.Name</h3>
+                            <p class="attraction-description">@(attraction.Description.Length > 100 ?
+                                attraction.Description.Substring(0, 100) + "..." : attraction.Description)</p>
                             <a href="/Home/AttractionDetail/@attraction.Id" class="attraction-link">
                                 Descobrir Mais <i class="fas fa-arrow-right"></i>
                             </a>
@@ -129,6 +186,22 @@
                     </div>
                 }
             </div>
+        }
+    </div>
+</section>
+
+    <!-- Mapa Interativo -->
+    <section class="section section-white" id="mapa">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-tag">Onde Encontrar</span>
+                <h2 class="section-title">Mapa das Atrações</h2>
+                <div class="section-divider"></div>
+                <p class="text-secondary fs-5 mb-4" style="max-width: 600px; margin: 0 auto;">
+                    Veja a localização de cada ponto turístico e planeje seu roteiro por Barra Bonita.
+                </p>
+            </div>
+            <div id="attractionsMap" class="attractions-map"></div>
         </div>
     </section>
 
@@ -154,75 +227,39 @@
                     </div>
                 </div>
                 <div class="col-lg-8">
-                    
-                    <div class="event-card mb-4">
-                        <div class="event-date-small" style="background: linear-gradient(135deg, #FF5A00, #E04E00);">
-                            <span class="event-month-small">FEV</span>
-                            <span class="event-day-small">14-17</span>
-                        </div>
-                        <div class="event-content">
-                            <span class="event-category" style="color: #FF5A00;">FESTIVIDADES / CARNAVAL</span>
-                            <h3 class="event-title-small">Barra Folia</h3>
-                            <p class="event-description">carnaval tradicional da cidade, com shows, blocos, trio elétrico e programação na orla turística.</p>
-                            </div>
-                        </div>
-
-                        
-                        <div class="event-card mb-4">
-                            <div class="event-date-small" style="background: linear-gradient(135deg, #383939, #383939);">
-                                <span class="event-month-small">JUN</span>
-                                <span class="event-day-small">13-15</span>
-                            </div>
-                            <div class="event-content">
-                                <span class="event-category" style="color: #383939;">MOTOCICLISMO / ENTRETENIMENTO</span>
-                                <h3 class="event-title-small">Zuando Moto Fest</h3>
-                                <p class="event-description">Gastronomia caipira refinada, shows de MPB e Jazz e a famosa feira
-                                    de malhas e artesanatos na Praça do Teleférico.</p>
-                                </div>
-                            </div>
-
-                            
+                    @if (upcomingEvents != null && upcomingEvents.Any())
+                    {
+                        @foreach (var ev in upcomingEvents)
+                        {
+                            var evColor = !string.IsNullOrEmpty(ev.Color) ? ev.Color : "#FF5A00";
+                            var startMonth = ev.StartDate.ToString("MMM", new System.Globalization.CultureInfo("pt-BR")).ToUpper();
+                            var dayDisplay = ev.EndDate.HasValue && ev.EndDate.Value.Date != ev.StartDate.Date
+                                ? ev.StartDate.Day + "-" + ev.EndDate.Value.Day
+                                : ev.StartDate.Day.ToString();
                             <div class="event-card mb-4">
-                                <div class="event-date-small" style="background: linear-gradient(135deg, #8B5CF6, #7C3AED);">
-                                    <span class="event-month-small">SET</span>
-                                    <span class="event-day-small">5-7</span>
+                                <div class="event-date-small" style="background: @evColor;">
+                                    <span class="event-month-small">@startMonth</span>
+                                    <span class="event-day-small">@dayDisplay</span>
                                 </div>
                                 <div class="event-content">
-                                    <span class="event-category" style="color: #8B5CF6;">MÚSICA / FESTIVAL CULTURAL</span>
-                                    <h3 class="event-title-small">Barra Rock Fest</h3>
-                                    <p class="event-description">considerado um dos maiores festivais de bandas cover do Brasil, realizado na orla turística com tributos de rock nacional e internacional.</p>
-                                    </div>
-                                </div>
-
-                                
-                                <div class="event-card mb-4">
-                                    <div class="event-date-small" style="background: linear-gradient(135deg, #0EA5E9, #0C8BC8);">
-                                        <span class="event-month-small">OUT</span>
-                                        <span class="event-day-small">12</span>
-                                    </div>
-                                    <div class="event-content">
-                                        <span class="event-category" style="color: #0EA5E9;">RELIGIOSO / TRADIÇÃO CULTURAL</span>
-                                        <h3 class="event-title-small">Rainha dos Estudantes / Nossa Senhora Aparecida</h3>
-                                        <p class="event-description">tradição religiosa de mais de 50 anos celebrada em 12 de outubro.</p>
-                                        </div>
-                                    </div>
-
-                                    <!-- Natal -->
-                                    <div class="event-card mb-4">
-                                        <div class="event-date-small" style="background: linear-gradient(135deg, #4e051c, #4e051c);">
-                                            <span class="event-month-small">DEZ</span>
-                                            <span class="event-day-small">20-25</span>
-                                        </div>
-                                        <div class="event-content">
-                                            <span class="event-category" style="color: #4e051c;">NATAL / EVENTO TURÍSTICO</span>
-                                            <h3 class="event-title-small">Barra Magia / Natal Encantado</h3>
-                                            <p class="event-description">evento natalino oficial da cidade com iluminação especial, atrações culturais e presença do Papai Noel.</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <span class="event-category" style="color: @evColor;">@ev.EventType?.ToUpper()</span>
+                                    <h3 class="event-title-small">@ev.Title</h3>
+                                    <p class="event-description">@ev.Description</p>
                                 </div>
                             </div>
-                        </section>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4">
+                            <i class="fas fa-calendar-times fa-2x mb-3" style="color: #ccc;"></i>
+                            <p class="text-secondary">Nenhum evento próximo cadastrado.</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
 
                         <!-- Hospitality Section - Com Imagens -->
                         <section class="section section-light" id="hospitalidade">
@@ -244,122 +281,62 @@
                                         </div>
 
                                         <div class="hospitality-grid">
-                                            <div class="hospitality-card">
-                                                <img src="https://dynamic-media-cdn.tripadvisor.com/media/photo-o/0d/6b/64/88/hotel-estancia-barra.jpg?w=900&h=-1&s=1"
-                                                     alt="Hotel Estância" class="hospitality-card-image"
-                                                     onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
-                                                <div class="hospitality-card-content">
-                                                    <h4 class="hospitality-card-title">Hotel Estância</h4>
-                                                    <p class="hospitality-card-description">O Hotel Estância Barra Bonita é um resort no
-                                                        interior de São Paulo conhecido pela ampla área verde, piscinas aquecidas e estrutura de
-                                                        lazer para famílias. O hotel oferece chalés confortáveis, parque aquático com toboáguas,
-                                                        quadras esportivas, recreação infantil e restaurante com refeições em estilo buffet. É
-                                                        um destino bastante procurado para descanso, férias e eventos corporativos.</p>
-                                                        <span class="hospitality-card-tag">RESORT DE LAZER</span>
-                                                    </div>
-                                                </div>
-                                                <div class="hospitality-card">
-                                                    <img src="https://barrabonita.sp.gov.br/storage/turismo/hoteis-e-pousadas/Po3KGNcjBub2dfkgZLsDdRq4WJ83VDovdHlLUcL5.jpg"
-                                                         alt="Hotel Barra Bonita" class="hospitality-card-image"
-                                                         onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Pousada'">
-                                                    <div class="hospitality-card-content">
-                                                        <h4 class="hospitality-card-title">Hotel Barra Bonita</h4>
-                                                        <p class="hospitality-card-description">Hotel turístico urbano e tradicional de Barra
-                                                            Bonita, localizado na região central da cidade, próximo ao rio Tietê, à eclusa turística
-                                                            e aos principais pontos gastronômicos e comerciais. É bastante procurado por turistas,
-                                                            famílias e visitantes de negócios devido à localização estratégica e ao fácil acesso às
-                                                            atrações turísticas da estância. O empreendimento oferece hospedagem prática e
-                                                            confortável, com ambiente familiar e estrutura voltada ao turismo regional. É
-                                                            considerado uma importante referência de hospedagem da cidade, atendendo visitantes que
-                                                            buscam lazer, passeios fluviais e estadias de curta permanência.</p>
-                                                            <span class="hospitality-card-tag">HOTEL TRADICIONAL</span>
-                                                        </div>
-                                                    </div>
+                                            @if (guideItemsByType != null && guideItemsByType.ContainsKey("Hospedagem"))
+                                            {
+                                                @foreach (var item in guideItemsByType["Hospedagem"])
+                                                {
                                                     <div class="hospitality-card">
-                                                        <img src="https://www.refugiosnointerior.com.br/sistema/_lib/file/img/lugar/2227/img8.jpg"
-                                                             alt="Hotel Beira Rio" class="hospitality-card-image"
+                                                        <img src="@item.ImageUrl"
+                                                             alt="@item.Name" class="hospitality-card-image"
                                                              onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Hotel'">
                                                         <div class="hospitality-card-content">
-                                                            <h4 class="hospitality-card-title">Hotel Beira Rio</h4>
-                                                            <p class="hospitality-card-description">Hotel tradicional e bastante conhecido de Barra
-                                                                Bonita, localizado às margens do rio Tietê e próximo aos principais pontos turísticos da
-                                                                cidade. Destaca-se pela localização privilegiada, com fácil acesso aos passeios
-                                                                fluviais, à eclusa turística e à região gastronômica central. É muito utilizado por
-                                                                turistas e visitantes que buscam praticidade, turismo regional e contato com o cenário
-                                                                turístico da estância.</p>
-                                                                <span class="hospitality-card-tag">HOTEL TURÍSTICO</span>
-                                                            </div>
+                                                            <h4 class="hospitality-card-title">@item.Name</h4>
+                                                            <p class="hospitality-card-description">@item.Description</p>
+                                                            <span class="hospitality-card-tag">@item.Type.ToUpper()</span>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
 
-                                                <!-- Guia Gastronômico -->
-                                                <div class="col-lg-6">
-                                                    <div class="d-flex align-items-center gap-3 mb-4">
-                                                        <div class="hospitality-icon">
-                                                            <i class="fas fa-utensils fa-2x" style="color: #FF5A00;"></i>
-                                                        </div>
-                                                        <h3 class="hospitality-section-title mb-0">Guia Gastronômico</h3>
-                                                    </div>
+                                    <!-- Guia Gastronômico -->
+                                    <div class="col-lg-6">
+                                        <div class="d-flex align-items-center gap-3 mb-4">
+                                            <div class="hospitality-icon">
+                                                <i class="fas fa-utensils fa-2x" style="color: #FF5A00;"></i>
+                                            </div>
+                                            <h3 class="hospitality-section-title mb-0">Guia Gastronômico</h3>
+                                        </div>
 
-                                                    <div class="hospitality-grid">
-                                                        <div class="hospitality-card">
-                                                            <img src="https://scontent-gru1-1.xx.fbcdn.net/v/t39.30808-6/480803547_1371975534125614_2586588712840891556_n.jpg?stp=cp6_dst-jpg_tt6&cstp=mx2048x1536&ctp=s960x960&_nc_cat=101&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=CpaQUQwsS-EQ7kNvwGofF4C&_nc_oc=AdrhAY9rCRk37bh_iTdD0DDNi8pLmKZCpqJCFiva9BTs1YytLeZGghDJuYDDUB8iU2Q&_nc_zt=23&_nc_ht=scontent-gru1-1.xx&_nc_gid=n4DVoIkYH2tL_3pnEqqw-A&_nc_ss=7b289&oh=00_Af8_qa454KrodTIToSogOuIx6EUb9OMzJym9Hx27zJ2Hmw&oe=6A327524"
-                                                                 alt="Restaurante Estação da Barra" class="hospitality-card-image"
-                                                                 onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
-                                                            <div class="hospitality-card-content">
-                                                                <h4 class="hospitality-card-title">Restaurante Estação da Barra</h4>
-                                                                <p class="hospitality-card-description">O Restaurante Estação da Barra, localizado em Barra
-                                                                    Bonita (SP), é um estabelecimento inserido no setor de serviços de alimentação fora do
-                                                                    lar, voltado ao fornecimento de refeições completas para o público local e turístico.
-                                                                    Seu funcionamento concentra-se principalmente no serviço de almoço, com cardápio baseado
-                                                                    na culinária brasileira, reunindo preparações que combinam aspectos tradicionais e
-                                                                    contemporâneos. O restaurante caracteriza-se pela oferta de pratos variados e
-                                                                    acessíveis, atendendo à demanda por refeições cotidianas e executivas. Assim, integra o
-                                                                    segmento de restauração, desempenhando papel importante no atendimento gastronômico da
-                                                                    região.</p>
-                                                                    <span class="hospitality-card-tag">SERVIÇO DE ALIMENTAÇÃO</span>
-                                                                </div>
-                                                            </div>
-                                                            <div class="hospitality-card">
-                                                                <img src="https://scontent-gru1-2.xx.fbcdn.net/v/t39.30808-6/486302011_1473480846969522_5892712531336375804_n.jpg?stp=dst-jpg_tt6&cstp=mx1651x884&ctp=s960x960&_nc_cat=100&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=5C0o2N3jwiAQ7kNvwGM7jYb&_nc_oc=AdopXvl3riXyfPVkbrxbi5AS3pHbMBCJW5T6B54aVrFnitacCSwvWS2_YTnaTDEIcJ8&_nc_zt=23&_nc_ht=scontent-gru1-2.xx&_nc_gid=memVS8zem85JBOqpqEOwpQ&_nc_ss=7b289&oh=00_Af-n2YMGjyO2JTDA5zBV_1vuWtJQdzxiDvi4Ajd1uqDd6Q&oe=6A324504"
-                                                                     alt="Barbina" class="hospitality-card-image"
-                                                                     onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
-                                                                <div class="hospitality-card-content">
-                                                                    <h4 class="hospitality-card-title">Barbina</h4>
-                                                                    <p class="hospitality-card-description">A Barbina é um estabelecimento do segmento de
-                                                                        gastronomia comercial que integra restaurante e choperia, caracterizando-se como um
-                                                                        espaço voltado à alimentação e ao convívio social. Seu funcionamento combina a oferta de
-                                                                        refeições, petiscos e porções com o serviço de bebidas, especialmente chopp, atendendo a
-                                                                        diferentes momentos de consumo, como refeições e encontros de lazer. O empreendimento
-                                                                        destaca-se por seu caráter híbrido entre restaurante e bar, inserindo-se na gastronomia
-                                                                        de lazer e socialização, sendo frequentado tanto por moradores locais quanto por
-                                                                        visitantes da região de Barra Bonita.</p>
-                                                                        <span class="hospitality-card-tag">RESTAURANTE E CHOPERIA</span>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="hospitality-card">
-                                                                    <img src="https://scontent-gru2-1.xx.fbcdn.net/v/t39.30808-6/476119255_9319443201431862_2903413000594632076_n.jpg?stp=dst-jpg_tt6&cstp=mx1944x1296&ctp=s590x590&_nc_cat=111&ccb=1-7&_nc_sid=127cfc&_nc_ohc=oLn3AwkzfqQQ7kNvwFXUW_R&_nc_oc=AdoKExTPqeGeXavOQgFzfmp55aPMB4t6_BvLFA3e0q5Uhu4rlsdfrT2QkIUf1xhOCKc&_nc_zt=23&_nc_ht=scontent-gru2-1.xx&_nc_gid=6rD6O7oODMRsiLcHSUu_3w&_nc_ss=7b289&oh=00_Af90gjZY0Lk1YqRk7qxfVLcwDNzM_v3X2QJHvylO9smmoA&oe=6A2FAB42"
-                                                                         alt="Dona Boleira" class="hospitality-card-image"
-                                                                         onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Cantina'">
-                                                                    <div class="hospitality-card-content">
-                                                                        <h4 class="hospitality-card-title">Dona Boleira</h4>
-                                                                        <p class="hospitality-card-description">A Dona Boleira de Barra Bonita (SP) é uma
-                                                                            confeitaria especializada na produção de bolos artesanais de estilo caseiro,
-                                                                            fundamentada na valorização de receitas tradicionais da confeitaria brasileira. Seu
-                                                                            processo produtivo prioriza técnicas artesanais, com foco em textura, frescor e sabor
-                                                                            característico de preparações domésticas. O estabelecimento atende tanto ao consumo
-                                                                            diário quanto à produção sob encomenda, oferecendo opções de bolos simples e recheados,
-                                                                            sendo reconhecido como referência local no segmento de confeitaria artesanal.</p>
-                                                                            <span class="hospitality-card-tag">CAFÉ & SOBREMESA</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                        <div class="hospitality-grid">
+                                            @if (guideItemsByType != null && guideItemsByType.ContainsKey("Gastronomia"))
+                                            {
+                                                @foreach (var item in guideItemsByType["Gastronomia"])
+                                                {
+                                                    <div class="hospitality-card">
+                                                        <img src="@item.ImageUrl"
+                                                             alt="@item.Name" class="hospitality-card-image"
+                                                             onerror="this.src='https://placehold.co/400x200/FF5A00/white?text=Restaurante'">
+                                                        <div class="hospitality-card-content">
+                                                            <h4 class="hospitality-card-title">@item.Name</h4>
+                                                            <p class="hospitality-card-description">@item.Description</p>
+                                                            <span class="hospitality-card-tag">@item.Type.ToUpper()</span>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </section>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-center mt-5">
+                                    <a href="/Home/Guide" class="btn-primary-custom">
+                                        Ver Guia Turístico Completo <i class="fas fa-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </section>
 
                                             <!-- FAQ Section -->
                                             <section class="section section-white" id="faq">
@@ -408,7 +385,8 @@
                                                             <a href="#" class="footer-logo">
                                                                 <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 40px; width: auto;">
                                                             </a>
-                                                            <p class="mt-4">TCC Barra Bonita Tour. Promovendo o desenvolvimento sustentável de Barra Bonita.</p>
+                                                            <p class="mt-4">Secretaria Municipal de Turismo e Cultura. Promovendo o desenvolvimento sustentável de
+                                                                Barra Bonita.</p>
                                                             </div>
                                                             <div class="col-lg-3">
                                                                 <h4 class="footer-title">Navegação</h4>
@@ -429,16 +407,141 @@
                                                                 </div>
                                                                 <div class="footer-contact">
                                                                     <i class="fas fa-envelope"></i>
-                                                                    <div><strong>E-mail</strong><br>tccbarrabonita26@gmail.com</div>
+                                                                    <div><strong>E-mail</strong><br>turismo@barrabonita.sp.gov.br</div>
                                                                 </div>
                                                                 <div class="footer-contact">
                                                                     <i class="fas fa-map-marker-alt"></i>
-                                                                    <div><strong>Endereço</strong><br>Etec Comendador João Rays, s/n<br>Barra Bonita - SP</div>
+                                                                    <div><strong>Endereço</strong><br>Praça Waldemar Lopes Ferraz, s/n<br>Barra Bonita - SP</div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="footer-bottom">
-                                                            <p>© 2026 TCC Barra Bonita Tour. Todos os direitos reservados.</p>
+                                                            <p>© 2026 Estância Turística de Barra Bonita. Todos os direitos reservados. · <a href="/Admin/Login" style="color: inherit; opacity: 0.5;">Acesso restrito</a></p>
                                                         </div>
                                                     </div>
                                                 </footer>
+
+@section Scripts {
+    <script>
+        // ============================================
+        // BUSCA + FILTRO POR CATEGORIA
+        // ============================================
+        (function () {
+            const searchInput = document.getElementById('attractionSearch');
+            const filterBtns  = document.querySelectorAll('.filter-btn');
+            const noResults   = document.getElementById('noResultsMsg');
+            const verMaisWrapper = document.getElementById('verMaisWrapper');
+            const gridExtra   = document.getElementById('gridExtra');
+            let extraVisible  = false;
+
+            function applyFilters() {
+                const activeBtn = document.querySelector('.filter-btn-active');
+                const filter    = activeBtn ? activeBtn.dataset.filter : 'all';
+                const search    = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+                // Filtra todos os cards dos dois grids
+                const allCards = document.querySelectorAll('.attraction-card');
+                let totalVisible = 0;
+
+                allCards.forEach(card => {
+                    const matchesFilter = filter === 'all' || card.dataset.category === filter;
+                    const matchesSearch = !search || card.dataset.name.includes(search) || card.dataset.desc.includes(search);
+                    const show = matchesFilter && matchesSearch;
+
+                    // Respeita qual grid o card pertence
+                    const inExtra = card.closest('#gridExtra') !== null;
+                    if (show) {
+                        totalVisible++;
+                        // Cards do extra só aparecem se o usuário clicou Ver Mais E há filtro/busca
+                        // OU se extraVisible já está true
+                        card.style.display = (inExtra && !extraVisible) ? 'none' : '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+
+                noResults.style.display = totalVisible === 0 ? 'block' : 'none';
+
+                // Botão Ver Mais: só mostra se há cards no extra E extra está oculto
+                if (verMaisWrapper && gridExtra) {
+                    const extraCards = gridExtra.querySelectorAll('.attraction-card');
+                    const extraHasVisible = Array.from(extraCards).some(c => {
+                        const matchesFilter = filter === 'all' || c.dataset.category === filter;
+                        const matchesSearch = !search || c.dataset.name.includes(search) || c.dataset.desc.includes(search);
+                        return matchesFilter && matchesSearch;
+                    });
+                    verMaisWrapper.style.display = (!extraVisible && extraHasVisible) ? 'block' : 'none';
+                }
+            }
+
+            // Botão Ver Mais
+            const verMaisBtn = document.getElementById('verMaisBtn');
+            if (verMaisBtn) {
+                verMaisBtn.addEventListener('click', function () {
+                    extraVisible = true;
+                    if (gridExtra) gridExtra.classList.remove('grid-hidden');
+                    if (verMaisWrapper) verMaisWrapper.style.display = 'none';
+                    applyFilters();
+                });
+            }
+
+            // Filtros de categoria
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function () {
+                    filterBtns.forEach(b => {
+                        b.classList.remove('filter-btn-active');
+                        b.classList.add('filter-btn-inactive');
+                    });
+                    this.classList.add('filter-btn-active');
+                    this.classList.remove('filter-btn-inactive');
+                    applyFilters();
+                });
+            });
+
+            // Busca em tempo real
+            if (searchInput) {
+                searchInput.addEventListener('input', applyFilters);
+            }
+
+            applyFilters();
+        })();
+
+        // ============================================
+        // MAPA INTERATIVO (LEAFLET)
+        // ============================================
+        (function () {
+            const mapEl = document.getElementById('attractionsMap');
+            if (!mapEl || typeof L === 'undefined') return;
+
+            const attractions = @Html.Raw(mapMarkersJson);
+
+            if (attractions.length === 0) return;
+
+            const avgLat = attractions.reduce((sum, a) => sum + a.lat, 0) / attractions.length;
+            const avgLng = attractions.reduce((sum, a) => sum + a.lng, 0) / attractions.length;
+
+            const map = L.map('attractionsMap').setView([avgLat, avgLng], 14);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors',
+                maxZoom: 19
+            }).addTo(map);
+
+            const customIcon = L.divIcon({
+                className: 'map-marker-custom',
+                html: '<i class="fas fa-map-marker-alt"></i>',
+                iconSize: [30, 30],
+                iconAnchor: [15, 30]
+            });
+
+            attractions.forEach(a => {
+                const marker = L.marker([a.lat, a.lng], { icon: customIcon }).addTo(map);
+                marker.bindPopup(`
+                    <strong>${a.name}</strong><br>
+                    <span style="color:#FF5A00; font-size:12px; font-weight:600;">${a.category}</span><br>
+                    <a href="${a.url}" style="color:#03140C; font-weight:600; font-size:13px;">Ver detalhes →</a>
+                `);
+            });
+        })();
+    </script>
+}

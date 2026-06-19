@@ -189,6 +189,7 @@ namespace BarraBonitaTurismo.Data
                     EndDate = new DateTime(2025, 7, 30),
                     Location = "Centro de Eventos",
                     ImageUrl = "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80",
+                    Color = "#383939",
                     IsFeatured = true,
                     EventType = "Gastronômico"
                 },
@@ -201,6 +202,7 @@ namespace BarraBonitaTurismo.Data
                     EndDate = new DateTime(2025, 8, 22),
                     Location = "Rio de Barra Bonita",
                     ImageUrl = "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=80",
+                    Color = "#8B5CF6",
                     IsFeatured = true,
                     EventType = "Esportivo"
                 },
@@ -213,6 +215,7 @@ namespace BarraBonitaTurismo.Data
                     EndDate = null,
                     Location = "Orla Fluvial",
                     ImageUrl = "https://images.unsplash.com/photo-1467810563316-b5476525c0f9?w=600&q=80",
+                    Color = "#0EA5E9",
                     IsFeatured = true,
                     EventType = "Cultural"
                 },
@@ -225,6 +228,7 @@ namespace BarraBonitaTurismo.Data
                     EndDate = new DateTime(2025, 6, 25),
                     Location = "Teatro Municipal",
                     ImageUrl = "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?w=600&q=80",
+                    Color = "#FF5A00",
                     IsFeatured = false,
                     EventType = "Cultural"
                 },
@@ -237,6 +241,7 @@ namespace BarraBonitaTurismo.Data
                     EndDate = new DateTime(2025, 12, 25),
                     Location = "Praça Central",
                     ImageUrl = "https://images.unsplash.com/photo-1512389142860-9c449e58a543?w=600&q=80",
+                    Color = "#4e051c",
                     IsFeatured = false,
                     EventType = "Cultural"
                 }

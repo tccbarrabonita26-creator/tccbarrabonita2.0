@@ -37,6 +37,7 @@ namespace BarraBonitaTurismo.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 300, VaryByQueryKeys = new[] { "id" })]
         public IActionResult AttractionDetail(int id)
         {
             var all = _dataService.GetAttractions();
@@ -84,11 +85,27 @@ namespace BarraBonitaTurismo.Controllers
             });
         }
 
-        public IActionResult Guide(string type)
+        [ResponseCache(Duration = 300, VaryByQueryKeys = new[] { "type", "page" })]
+        public IActionResult Guide(string type, int page = 1)
         {
-            var items = _dataService.GetGuideItemsByType(type);
+            const int pageSize = 6;
+
+            var allItems = _dataService.GetGuideItemsByType(type);
+            var totalItems = allItems.Count;
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            if (page < 1) page = 1;
+            if (totalPages > 0 && page > totalPages) page = totalPages;
+
+            var items = allItems
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
             ViewBag.Types = new List<string> { "Hospedagem", "Gastronomia", "Atividades" };
             ViewBag.CurrentType = type;
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
             return View(items);
         }
 

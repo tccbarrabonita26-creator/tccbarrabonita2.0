@@ -1,0 +1,63 @@
+@model BarraBonitaTurismo.Models.GuideItem
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = Model.Id == 0 ? "Novo Item do Guia" : "Editar Item do Guia";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="admin-title mb-0">@(Model.Id == 0 ? "Novo Item do Guia" : "Editar Item do Guia")</h1>
+    <a href="/Admin/GuideItems" class="btn btn-outline-dark"><i class="fas fa-arrow-left me-1"></i> Voltar</a>
+</div>
+
+<div class="admin-card">
+    <form method="post" action="/Admin/GuideItemForm">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label class="form-label fw-semibold">Nome *</label>
+                <input asp-for="Name" class="form-control" required maxlength="200" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Tipo *</label>
+                <select asp-for="Type" class="form-select" required>
+                    <option value="Hospedagem">Hospedagem</option>
+                    <option value="Gastronomia">Gastronomia</option>
+                    <option value="Atividades">Atividades</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-semibold">Descrição</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Endereço</label>
+                <input asp-for="Address" class="form-control" maxlength="300" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold">Telefone</label>
+                <input asp-for="Phone" class="form-control" maxlength="20" />
+            </div>
+            <div class="col-md-3">
+                <label class="form-label fw-semibold">Avaliação (1-5)</label>
+                <input asp-for="Rating" type="number" min="1" max="5" class="form-control" />
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">Website</label>
+                <input asp-for="Website" class="form-control" maxlength="200" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-semibold">URL da Imagem</label>
+                <input asp-for="ImageUrl" class="form-control" maxlength="500" />
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-admin-primary"><i class="fas fa-save me-1"></i> Salvar</button>
+            <a href="/Admin/GuideItems" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>

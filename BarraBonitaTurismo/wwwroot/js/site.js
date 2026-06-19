@@ -52,6 +52,8 @@ const BarraBonitaTurismo = (function() {
     // ============================================
     
     const initFilters = () => {
+        // Skip if page has its own advanced filter system (Index with favorites + search)
+        if (document.querySelector('[data-filter="favorites"]')) return;
         const filterBtns = document.querySelectorAll('.filter-btn');
         const attractionCards = document.querySelectorAll('.attraction-card');
         

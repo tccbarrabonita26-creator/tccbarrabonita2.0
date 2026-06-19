@@ -1,67 +1,197 @@
 @model List<BarraBonitaTurismo.Models.GuideItem>
 @{
     ViewData["Title"] = "Guia Turístico - " + ViewBag.CurrentType;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Barra Bonita</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Playfair+Display:wght@700;900&amp;display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-slate-50 dark:bg-slate-950">
-    <div class="max-w-7xl mx-auto px-6 py-32">
-        <div class="text-center mb-16">
-            <h1 class="text-5xl font-display font-bold dark:text-white mb-4">
-                Guia de @(ViewBag.CurrentType == "Hospedagem" ? "Hospedagem" : ViewBag.CurrentType == "Gastronomia" ? "Gastronomia" : "Atividades")
-            </h1>
-            <div class="w-24 h-2 bg-primary mx-auto rounded-full"></div>
-        </div>
-        
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            @foreach (var item in Model)
-            {
-                <div class="bg-white dark:bg-slate-900 rounded-[2rem] overflow-hidden shadow-lg hover:shadow-xl transition-all">
-                    <img src="@item.ImageUrl" alt="@item.Name" class="w-full h-64 object-cover">
-                    <div class="p-8">
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-2xl font-bold dark:text-white">@item.Name</h3>
-                            <div class="flex text-yellow-400">
-                                @for (int i = 0; i < item.Rating; i++)
-                                {
-                                    <span>★</span>
-                                }
-                            </div>
-                        </div>
-                        <p class="text-slate-600 dark:text-slate-400 mb-4">@item.Description</p>
-                        <p class="text-sm text-slate-500 dark:text-slate-400">
-                            <span class="material-symbols-outlined inline-block text-sm align-middle mr-1">location_on</span>
-                            @item.Address
-                        </p>
-                        <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">
-                            <span class="material-symbols-outlined inline-block text-sm align-middle mr-1">phone</span>
-                            @item.Phone
-                        </p>
-                        @if (!string.IsNullOrEmpty(item.Website))
-                        {
-                            <a href="http://@item.Website" target="_blank" class="inline-block mt-4 text-primary hover:underline">
-                                Visitar website →
-                            </a>
-                        }
-                    </div>
-                </div>
-            }
-        </div>
-        
-        <div class="text-center mt-12">
-            <a href="/#guia" class="inline-flex items-center gap-2 text-primary hover:gap-4 transition-all">
-                ← Voltar para o Guia Principal
-            </a>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <img src="~/img/Logo Horizontal 2.png" alt="Barra Bonita" style="height: 50px; width: auto;">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link-custom" href="/#hero">INÍCIO</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#historia">HISTÓRIA</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#atracoes">ATRAÇÕES</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#mapa">MAPA</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#calendario">CALENDÁRIO</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#hospitalidade">HOSPITALIDADE</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#faq">FAQ</a></li>
+                <li class="nav-item"><a class="nav-link-custom" href="/#contato">CONTATO</a></li>
+            </ul>
         </div>
     </div>
-</body>
-</html>
+</nav>
+
+<!-- Page Header -->
+<section style="background: linear-gradient(135deg, #03140C 0%, #0a2a18 100%); padding: 80px 0 60px;">
+    <div class="container text-center">
+        <span class="section-tag" style="background: rgba(255,90,0,0.15); color: #FF5A00;">GUIA COMPLETO</span>
+        <h1 class="section-title mt-3" style="color: #fff;">
+            @(ViewBag.CurrentType == "Hospedagem" ? "Onde se Hospedar" :
+              ViewBag.CurrentType == "Gastronomia" ? "Onde Comer" : "O que Fazer")
+        </h1>
+        <div class="section-divider" style="background: #FF5A00; margin: 0 auto;"></div>
+        <p class="mt-4" style="color: rgba(255,255,255,0.7); font-size: 1.1rem; max-width: 560px; margin-left: auto; margin-right: auto;">
+            @(ViewBag.CurrentType == "Hospedagem" ? "Opções de hospedagem selecionadas para tornar sua estadia em Barra Bonita inesquecível." :
+              ViewBag.CurrentType == "Gastronomia" ? "Os melhores restaurantes e sabores que a cidade tem a oferecer." :
+              "Atividades e experiências para aproveitar ao máximo sua visita.")
+        </p>
+    </div>
+</section>
+
+<!-- Guide Items Grid -->
+<section class="section section-light">
+    <div class="container">
+
+        @if (!Model.Any())
+        {
+            <div class="text-center py-5">
+                <i class="fas fa-inbox fa-3x mb-3" style="color: #ccc;"></i>
+                <p class="text-secondary fs-5">Nenhum item encontrado nesta categoria.</p>
+            </div>
+        }
+        else
+        {
+            <div class="row g-4">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="guide-detail-card h-100">
+                            <div class="guide-detail-img-wrapper">
+                                <img src="@item.ImageUrl" alt="@item.Name" class="guide-detail-img"
+                                     onerror="this.src='https://placehold.co/400x260/FF5A00/white?text=@Uri.EscapeDataString(item.Name)'">
+                                <span class="guide-detail-badge">@item.Type</span>
+                            </div>
+                            <div class="guide-detail-body">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <h3 class="guide-detail-title">@item.Name</h3>
+                                    <div class="guide-detail-stars">
+                                        @for (int i = 1; i <= 5; i++)
+                                        {
+                                            if (i <= item.Rating)
+                                            {
+                                                <i class="fas fa-star" style="color: #FF5A00;"></i>
+                                            }
+                                            else
+                                            {
+                                                <i class="far fa-star" style="color: #ddd;"></i>
+                                            }
+                                        }
+                                    </div>
+                                </div>
+                                <p class="guide-detail-desc">@item.Description</p>
+                                <div class="guide-detail-info">
+                                    @if (!string.IsNullOrEmpty(item.Address))
+                                    {
+                                        <div class="guide-detail-info-row">
+                                            <i class="fas fa-map-marker-alt"></i>
+                                            <span>@item.Address</span>
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.Phone))
+                                    {
+                                        <div class="guide-detail-info-row">
+                                            <i class="fas fa-phone"></i>
+                                            <span>@item.Phone</span>
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(item.Website))
+                                    {
+                                        <div class="guide-detail-info-row">
+                                            <i class="fas fa-globe"></i>
+                                            <a href="http://@item.Website" target="_blank" class="guide-detail-link">@item.Website</a>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+
+        @if ((int)ViewBag.TotalPages > 1)
+        {
+            int current = (int)ViewBag.CurrentPage;
+            int total = (int)ViewBag.TotalPages;
+
+            <div class="guide-pagination mt-5">
+                @if (current > 1)
+                {
+                    <a href="@Url.Action("Guide", new { type = ViewBag.CurrentType, page = current - 1 })" class="guide-page-btn">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                }
+                @for (int i = 1; i <= total; i++)
+                {
+                    <a href="@Url.Action("Guide", new { type = ViewBag.CurrentType, page = i })"
+                       class="guide-page-btn @(i == current ? "guide-page-active" : "")">
+                        @i
+                    </a>
+                }
+                @if (current < total)
+                {
+                    <a href="@Url.Action("Guide", new { type = ViewBag.CurrentType, page = current + 1 })" class="guide-page-btn">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                }
+            </div>
+        }
+
+        <div class="text-center mt-5">
+            <a href="/#guia" class="btn-outline-custom">
+                <i class="fas fa-arrow-left me-2"></i> Voltar para o Guia Principal
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-5">
+                <a href="/" class="footer-logo">
+                    <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 40px; width: auto;">
+                </a>
+                <p class="mt-4">Secretaria Municipal de Turismo e Cultura. Promovendo o desenvolvimento sustentável de Barra Bonita.</p>
+            </div>
+            <div class="col-lg-3">
+                <h4 class="footer-title">Navegação</h4>
+                <div class="footer-divider"></div>
+                <ul class="footer-links">
+                    <li><a href="/#hero">Início</a></li>
+                    <li><a href="/#historia">Nossa História</a></li>
+                    <li><a href="/#atracoes">Atrações</a></li>
+                    <li><a href="/#calendario">Eventos</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4">
+                <h4 class="footer-title">Atendimento</h4>
+                <div class="footer-divider"></div>
+                <div class="footer-contact">
+                    <i class="fas fa-phone"></i>
+                    <div><strong>Telefone</strong><br>(14) 3604-4000</div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-envelope"></i>
+                    <div><strong>E-mail</strong><br>turismo@barrabonita.sp.gov.br</div>
+                </div>
+                <div class="footer-contact">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div><strong>Endereço</strong><br>Praça Waldemar Lopes Ferraz, s/n<br>Barra Bonita - SP</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Estância Turística de Barra Bonita. Todos os direitos reservados. · <a href="/Admin/Login" style="color: inherit; opacity: 0.5;">Acesso restrito</a></p>
+        </div>
+    </div>
+</footer>

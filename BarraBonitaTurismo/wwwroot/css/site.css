@@ -1532,3 +1532,256 @@ a.detail-voltar-btn:hover {
     font-size: 15px;
     margin: 0;
 }
+
+/* ============================================
+   BUSCA DE ATRAÇÕES
+   ============================================ */
+.attractions-search-wrapper {
+    display: flex;
+    justify-content: center;
+    margin: 32px 0 8px;
+}
+
+.attractions-search-box {
+    position: relative;
+    width: 100%;
+    max-width: 460px;
+}
+
+.attractions-search-box i {
+    position: absolute;
+    left: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    font-size: 15px;
+}
+
+.attractions-search-box input {
+    width: 100%;
+    padding: 13px 18px 13px 46px;
+    border: 1px solid var(--gray-border);
+    border-radius: 9999px;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: all 0.2s;
+    background: var(--white);
+}
+
+.attractions-search-box input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(255,90,0,0.1);
+}
+
+/* ============================================
+   BOTÃO DE FAVORITOS NOS CARDS
+   ============================================ */
+.attraction-card {
+    position: relative;
+}
+
+
+/* ============================================
+   MAPA INTERATIVO
+   ============================================ */
+.grid-hidden {
+    display: none !important;
+}
+.attractions-map {
+    width: 100%;
+    height: 460px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--gray-border);
+    margin-top: 8px;
+    z-index: 1;
+}
+
+.map-marker-custom {
+    color: var(--primary);
+    font-size: 28px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.map-marker-custom i {
+    display: block;
+}
+
+/* ============================================
+   PAGINAÇÃO DO GUIA TURÍSTICO
+   ============================================ */
+.guide-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 48px 0 24px;
+}
+
+.guide-page-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--gray-border);
+    background: var(--white);
+    color: var(--secondary);
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.guide-page-btn:hover {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.guide-page-active {
+    background: var(--primary) !important;
+    color: white !important;
+    border-color: var(--primary) !important;
+}
+
+/* ============================================
+   BOTÃO VER MAIS ATRAÇÕES
+   ============================================ */
+.btn-outline-custom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--primary);
+    border: 2px solid var(--primary);
+    border-radius: 9999px;
+    padding: 12px 28px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+}
+
+.btn-outline-custom:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ============================================
+   GUIDE DETAIL PAGE CARDS
+   ============================================ */
+.guide-detail-card {
+    background: #fff;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-detail-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.13);
+}
+
+.guide-detail-img-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.guide-detail-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.guide-detail-card:hover .guide-detail-img {
+    transform: scale(1.05);
+}
+
+.guide-detail-badge {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    background: var(--primary);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 4px 12px;
+    border-radius: 999px;
+}
+
+.guide-detail-body {
+    padding: 24px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.guide-detail-title {
+    font-family: 'League Spartan', sans-serif;
+    font-weight: 800;
+    font-size: 1.2rem;
+    color: var(--dark);
+    margin: 0;
+}
+
+.guide-detail-stars {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+    margin-left: 10px;
+}
+
+.guide-detail-desc {
+    color: #6b7280;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    margin: 12px 0 16px;
+    flex: 1;
+}
+
+.guide-detail-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid #f3f4f6;
+}
+
+.guide-detail-info-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.875rem;
+    color: #6b7280;
+}
+
+.guide-detail-info-row i {
+    color: var(--primary);
+    margin-top: 2px;
+    width: 14px;
+    flex-shrink: 0;
+}
+
+.guide-detail-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.guide-detail-link:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,205 @@
+@{
+    var path = Context.Request.Path.Value?.ToLower() ?? "";
+}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Painel Admin | Barra Bonita</title>
+    <link rel="icon" type="image/png" href="~/img/favicon.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=League+Spartan:wght@600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --admin-primary: #FF5A00;
+            --admin-dark: #03140C;
+        }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #f4f5f7;
+        }
+        .admin-sidebar {
+            background: var(--admin-dark);
+            min-height: 100vh;
+            color: #fff;
+            position: sticky;
+            top: 0;
+        }
+        .admin-sidebar .brand {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 900;
+            font-size: 1.4rem;
+            padding: 24px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .admin-sidebar .brand span { color: var(--admin-primary); }
+        .admin-sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: rgba(255,255,255,0.75);
+            padding: 13px 22px;
+            text-decoration: none;
+            font-size: 14.5px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .admin-sidebar a:hover, .admin-sidebar a.active {
+            background: rgba(255,90,0,0.12);
+            color: #fff;
+            border-left-color: var(--admin-primary);
+        }
+        .admin-sidebar a i { width: 18px; text-align: center; }
+        .admin-content { padding: 32px; }
+        .admin-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1px solid #e5e7eb;
+            padding: 24px;
+        }
+        .btn-admin-primary {
+            background: var(--admin-primary);
+            border: none;
+            color: #fff;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 22px;
+        }
+        .btn-admin-primary:hover { background: #e04e00; color: #fff; }
+        .table thead th {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #6b7280;
+            border-bottom-width: 1px;
+        }
+        h1.admin-title {
+            font-family: 'League Spartan', sans-serif;
+            font-weight: 800;
+            color: var(--admin-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-3 col-lg-2 admin-sidebar p-0">
+                <div class="brand">
+                    <img src="~/img/Logo Horizontal 1.png" alt="Barra Bonita" style="height: 48px; width: auto; display:block;">
+                    <small style="font-size:11px; font-weight:500; opacity:0.6; display:block; margin-top:6px;">Painel Administrativo</small>
+                </div>
+                <a href="/Admin/Dashboard" class="@(path.EndsWith("/dashboard") || path == "/admin" ? "active" : "")"><i class="fas fa-gauge-high"></i> Dashboard</a>
+                <a href="/Admin/Attractions" class="@(path.Contains("attraction") ? "active" : "")"><i class="fas fa-map-location-dot"></i> Atrações</a>
+                <a href="/Admin/Events" class="@(path.Contains("event") ? "active" : "")"><i class="fas fa-calendar-days"></i> Eventos</a>
+                <a href="/Admin/FAQs" class="@(path.Contains("faq") ? "active" : "")"><i class="fas fa-circle-question"></i> FAQ</a>
+                <a href="/Admin/GuideItems" class="@(path.Contains("guideitem") ? "active" : "")"><i class="fas fa-compass"></i> Guia Turístico</a>
+                <hr style="border-color: rgba(255,255,255,0.08); margin: 12px 0;">
+                <a href="/" target="_blank"><i class="fas fa-arrow-up-right-from-square"></i> Ver Site</a>
+                <a href="/Admin/Logout"><i class="fas fa-right-from-bracket"></i> Sair</a>
+            </nav>
+            <main class="col-md-9 col-lg-10 admin-content">
+                @if (TempData["Success"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                }
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação Genérico -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" style="border-radius: 16px; border:none;">
+                <div class="modal-body text-center p-4">
+                    <div class="mb-3">
+                        <i id="confirmModalIcon" class="fas fa-circle-question fa-3x" style="color:#FF5A00;"></i>
+                    </div>
+                    <h5 id="confirmModalTitle" class="fw-bold mb-2">Confirmar ação</h5>
+                    <p id="confirmModalText" class="text-secondary mb-4">Tem certeza que deseja continuar?</p>
+                    <div class="d-flex justify-content-center gap-2">
+                        <button type="button" class="btn btn-outline-secondary px-4" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" id="confirmModalConfirmBtn" class="btn btn-admin-primary px-4">Confirmar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // ============================================
+        // SISTEMA GLOBAL DE CONFIRMAÇÃO (substitui confirm() nativo)
+        // ============================================
+        (function () {
+            const modalEl = document.getElementById('confirmModal');
+            if (!modalEl || typeof bootstrap === 'undefined') return;
+
+            const modal = new bootstrap.Modal(modalEl);
+            const titleEl = document.getElementById('confirmModalTitle');
+            const textEl = document.getElementById('confirmModalText');
+            const iconEl = document.getElementById('confirmModalIcon');
+            const confirmBtn = document.getElementById('confirmModalConfirmBtn');
+
+            // Formulários de EXCLUSÃO (botões com classe btn-outline-danger dentro de form)
+            document.querySelectorAll('form').forEach(form => {
+                const deleteBtn = form.querySelector('button[type="submit"].btn-outline-danger');
+                if (deleteBtn) {
+                    form.addEventListener('submit', function (e) {
+                        if (form.dataset.confirmed === 'true') return; // já confirmado
+                        e.preventDefault();
+
+                        titleEl.textContent = 'Excluir item';
+                        textEl.textContent = 'Esta ação não pode ser desfeita. Tem certeza que deseja excluir este item permanentemente?';
+                        iconEl.className = 'fas fa-trash fa-3x';
+                        iconEl.style.color = '#dc3545';
+                        confirmBtn.className = 'btn btn-danger px-4';
+                        confirmBtn.textContent = 'Excluir';
+
+                        confirmBtn.onclick = function () {
+                            form.dataset.confirmed = 'true';
+                            modal.hide();
+                            form.submit();
+                        };
+
+                        modal.show();
+                    });
+                }
+            });
+
+            // Formulários de SALVAR/EDITAR (formulários de cadastro com botão btn-admin-primary[type=submit])
+            document.querySelectorAll('form').forEach(form => {
+                const saveBtn = form.querySelector('button[type="submit"].btn-admin-primary');
+                if (saveBtn && !form.querySelector('.btn-outline-danger')) {
+                    form.addEventListener('submit', function (e) {
+                        if (form.dataset.confirmed === 'true') return;
+                        e.preventDefault();
+
+                        titleEl.textContent = 'Salvar alterações';
+                        textEl.textContent = 'Deseja salvar as alterações feitas neste item?';
+                        iconEl.className = 'fas fa-circle-check fa-3x';
+                        iconEl.style.color = '#FF5A00';
+                        confirmBtn.className = 'btn btn-admin-primary px-4';
+                        confirmBtn.textContent = 'Salvar';
+
+                        confirmBtn.onclick = function () {
+                            form.dataset.confirmed = 'true';
+                            modal.hide();
+                            form.submit();
+                        };
+
+                        modal.show();
+                    });
+                }
+            });
+        })();
+    </script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

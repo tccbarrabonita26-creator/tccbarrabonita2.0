@@ -1,0 +1,147 @@
+@model BarraBonitaTurismo.Models.Event
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = Model.Id == 0 ? "Novo Evento" : "Editar Evento";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="admin-title mb-0">@(Model.Id == 0 ? "Novo Evento" : "Editar Evento")</h1>
+    <a href="/Admin/Events" class="btn btn-outline-dark"><i class="fas fa-arrow-left me-1"></i> Voltar</a>
+</div>
+
+<div class="admin-card">
+    <form method="post" action="/Admin/EventForm">
+        <input type="hidden" asp-for="Id" />
+
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label class="form-label fw-semibold">Título *</label>
+                <input asp-for="Title" class="form-control" required maxlength="200" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Tipo de Evento</label>
+                <select asp-for="EventType" class="form-select">
+                    <option value="Cultural">Cultural</option>
+                    <option value="Esportivo">Esportivo</option>
+                    <option value="Gastronômico">Gastronômico</option>
+                    <option value="Religioso">Religioso</option>
+                </select>
+            </div>
+
+            <div class="col-12">
+                <label class="form-label fw-semibold">Descrição *</label>
+                <textarea asp-for="Description" class="form-control" rows="4" required></textarea>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Data de Início *</label>
+                <input asp-for="StartDate" type="date" class="form-control" required value="@Model.StartDate.ToString("yyyy-MM-dd")" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Data de Fim</label>
+                <input asp-for="EndDate" type="date" class="form-control" value="@(Model.EndDate?.ToString("yyyy-MM-dd"))" />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fw-semibold">Local</label>
+                <input asp-for="Location" class="form-control" maxlength="200" />
+            </div>
+
+            <div class="col-md-8">
+                <label class="form-label fw-semibold">Cor do Evento</label>
+                <div class="d-flex align-items-center gap-3">
+                    <input type="color" id="colorPicker" value="#FF5A00"
+                           style="width:48px; height:38px; border:1px solid #dee2e6; border-radius:8px; padding:2px; cursor:pointer;">
+                    <input asp-for="Color" id="colorHex" class="form-control" maxlength="20"
+                           placeholder="#FF5A00" style="font-family: monospace; font-size: 15px;" />
+                    <div id="colorPreview"
+                         style="width:80px; height:38px; border-radius:12px; border:1px solid #dee2e6; transition: background 0.2s;"></div>
+                </div>
+                <div class="mt-2 d-flex flex-wrap gap-2" id="colorPresets">
+                    <button type="button" class="color-preset-btn" data-color="#FF5A00" style="background:#FF5A00;" title="Laranja"></button>
+                    <button type="button" class="color-preset-btn" data-color="#383939" style="background:#383939;" title="Carvão"></button>
+                    <button type="button" class="color-preset-btn" data-color="#8B5CF6" style="background:#8B5CF6;" title="Roxo"></button>
+                    <button type="button" class="color-preset-btn" data-color="#0EA5E9" style="background:#0EA5E9;" title="Azul"></button>
+                    <button type="button" class="color-preset-btn" data-color="#4e051c" style="background:#4e051c;" title="Bordô"></button>
+                    <button type="button" class="color-preset-btn" data-color="#16A34A" style="background:#16A34A;" title="Verde"></button>
+                    <button type="button" class="color-preset-btn" data-color="#DC2626" style="background:#DC2626;" title="Vermelho"></button>
+                    <button type="button" class="color-preset-btn" data-color="#D97706" style="background:#D97706;" title="Âmbar"></button>
+                </div>
+                <small class="text-muted">Esta cor aparece no card do evento na página principal.</small>
+            </div>
+            <div class="col-md-4 d-flex align-items-end gap-2">
+                <div class="form-check mt-2">
+                    <input asp-for="IsFeatured" class="form-check-input" type="checkbox" />
+                    <label class="form-check-label fw-semibold" asp-for="IsFeatured">Evento em destaque</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <button type="submit" class="btn btn-admin-primary"><i class="fas fa-save me-1"></i> Salvar</button>
+            <a href="/Admin/Events" class="btn btn-outline-secondary">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<style>
+.color-preset-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: transform 0.15s, border-color 0.15s;
+}
+.color-preset-btn:hover,
+.color-preset-btn.active {
+    transform: scale(1.2);
+    border-color: #03140C;
+}
+</style>
+
+@section Scripts {
+<script>
+(function () {
+    const picker  = document.getElementById('colorPicker');
+    const hexInput = document.getElementById('colorHex');
+    const preview  = document.getElementById('colorPreview');
+    const presets  = document.querySelectorAll('.color-preset-btn');
+
+    function applyColor(hex) {
+        const clean = hex.trim();
+        if (picker)  picker.value  = clean;
+        if (hexInput) hexInput.value = clean;
+        if (preview)  preview.style.background = clean;
+        presets.forEach(b => {
+            b.classList.toggle('active', b.dataset.color.toLowerCase() === clean.toLowerCase());
+        });
+    }
+
+    // Inicializa com o valor atual do model
+    const initial = hexInput.value || '#FF5A00';
+    applyColor(initial);
+
+    // Sincroniza color picker nativo → texto
+    if (picker) {
+        picker.addEventListener('input', () => applyColor(picker.value));
+    }
+
+    // Sincroniza texto → color picker e preview
+    if (hexInput) {
+        hexInput.addEventListener('input', function () {
+            const v = this.value.trim();
+            if (/^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/.test(v)) {
+                applyColor(v);
+            } else {
+                preview.style.background = '#eee';
+            }
+        });
+    }
+
+    // Presets
+    presets.forEach(btn => {
+        btn.addEventListener('click', () => applyColor(btn.dataset.color));
+    });
+})();
+</script>
+}

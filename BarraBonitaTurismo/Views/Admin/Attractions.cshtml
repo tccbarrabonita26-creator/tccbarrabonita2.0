@@ -1,0 +1,45 @@
+@model List<BarraBonitaTurismo.Models.Attraction>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Atrações";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="admin-title mb-1">Atrações</h1>
+        <p class="text-secondary mb-0">Gerencie os pontos turísticos exibidos no site</p>
+    </div>
+    <a href="/Admin/AttractionForm" class="btn btn-admin-primary"><i class="fas fa-plus me-1"></i> Nova Atração</a>
+</div>
+
+<div class="admin-card p-0">
+    <table class="table mb-0 align-middle">
+        <thead>
+            <tr>
+                <th style="width: 80px;">Imagem</th>
+                <th>Nome</th>
+                <th>Categoria</th>
+                <th>Endereço</th>
+                <th style="width: 140px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var a in Model)
+            {
+                <tr>
+                    <td><img src="@a.ImageUrl" style="width:60px; height:45px; object-fit:cover; border-radius:8px;" onerror="this.src='https://placehold.co/60x45/FF5A00/white?text=BB'"></td>
+                    <td class="fw-semibold">@a.Name</td>
+                    <td><span class="badge" style="background:#FF5A00;">@a.Category</span></td>
+                    <td class="text-secondary small">@a.Address</td>
+                    <td>
+                        <a href="/Admin/AttractionForm?id=@a.Id" class="btn btn-sm btn-outline-dark"><i class="fas fa-pen"></i></a>
+                        <form method="post" action="/Admin/AttractionDelete" style="display:inline">
+                            <input type="hidden" name="id" value="@a.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

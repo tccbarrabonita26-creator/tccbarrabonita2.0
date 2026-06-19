@@ -61,6 +61,7 @@ namespace BarraBonitaTurismo.Migrations
                 b.Property<DateTime?>("EndDate").HasColumnType("datetime(6)");
                 b.Property<string>("Location").HasMaxLength(200).HasColumnType("varchar(200)");
                 b.Property<string>("ImageUrl").HasMaxLength(500).HasColumnType("varchar(500)");
+                b.Property<string>("Color").HasMaxLength(20).HasColumnType("varchar(20)");
                 b.Property<bool>("IsFeatured").HasColumnType("tinyint(1)");
                 b.Property<string>("EventType").HasMaxLength(50).HasColumnType("varchar(50)");
                 b.HasKey("Id");

@@ -1,0 +1,52 @@
+@model List<BarraBonitaTurismo.Models.GuideItem>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "Guia Turístico";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="admin-title mb-1">Guia Turístico</h1>
+        <p class="text-secondary mb-0">Hospedagem, gastronomia e atividades</p>
+    </div>
+    <a href="/Admin/GuideItemForm" class="btn btn-admin-primary"><i class="fas fa-plus me-1"></i> Novo Item</a>
+</div>
+
+<div class="admin-card p-0">
+    <table class="table mb-0 align-middle">
+        <thead>
+            <tr>
+                <th style="width: 80px;">Imagem</th>
+                <th>Nome</th>
+                <th>Tipo</th>
+                <th>Endereço</th>
+                <th>Avaliação</th>
+                <th style="width: 140px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var g in Model)
+            {
+                <tr>
+                    <td><img src="@g.ImageUrl" style="width:60px; height:45px; object-fit:cover; border-radius:8px;" onerror="this.src='https://placehold.co/60x45/FF5A00/white?text=BB'"></td>
+                    <td class="fw-semibold">@g.Name</td>
+                    <td><span class="badge bg-secondary">@g.Type</span></td>
+                    <td class="text-secondary small">@g.Address</td>
+                    <td>
+                        @for (int i = 0; i < g.Rating; i++)
+                        {
+                            <i class="fas fa-star" style="color:#FF5A00; font-size:12px;"></i>
+                        }
+                    </td>
+                    <td>
+                        <a href="/Admin/GuideItemForm?id=@g.Id" class="btn btn-sm btn-outline-dark"><i class="fas fa-pen"></i></a>
+                        <form method="post" action="/Admin/GuideItemDelete" style="display:inline">
+                            <input type="hidden" name="id" value="@g.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

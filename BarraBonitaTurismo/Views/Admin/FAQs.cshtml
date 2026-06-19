@@ -1,0 +1,43 @@
+@model List<BarraBonitaTurismo.Models.FAQ>
+@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewData["Title"] = "FAQ";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="admin-title mb-1">Perguntas Frequentes</h1>
+        <p class="text-secondary mb-0">Gerencie as dúvidas exibidas na seção de FAQ</p>
+    </div>
+    <a href="/Admin/FAQForm" class="btn btn-admin-primary"><i class="fas fa-plus me-1"></i> Nova Pergunta</a>
+</div>
+
+<div class="admin-card p-0">
+    <table class="table mb-0 align-middle">
+        <thead>
+            <tr>
+                <th style="width: 70px;">Ordem</th>
+                <th>Pergunta</th>
+                <th>Resposta</th>
+                <th style="width: 140px;">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var f in Model)
+            {
+                <tr>
+                    <td><span class="badge bg-secondary">@f.Order</span></td>
+                    <td class="fw-semibold">@f.Question</td>
+                    <td class="text-secondary small">@(f.Answer.Length > 80 ? f.Answer.Substring(0, 80) + "..." : f.Answer)</td>
+                    <td>
+                        <a href="/Admin/FAQForm?id=@f.Id" class="btn btn-sm btn-outline-dark"><i class="fas fa-pen"></i></a>
+                        <form method="post" action="/Admin/FAQDelete" style="display:inline">
+                            <input type="hidden" name="id" value="@f.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger"><i class="fas fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

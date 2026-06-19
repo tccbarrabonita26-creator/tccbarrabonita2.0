@@ -22,6 +22,9 @@ namespace BarraBonitaTurismo.Models
         [StringLength(500)]
         public string ImageUrl { get; set; }
 
+        [StringLength(20)]
+        public string Color { get; set; } // Código hexadecimal da cor do evento (ex: #FF5A00)
+
         public bool IsFeatured { get; set; }
 
         [StringLength(50)]
