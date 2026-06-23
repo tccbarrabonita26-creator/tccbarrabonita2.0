@@ -14,7 +14,6 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddScoped<IDataService, DataService>();
 
-// Sessão (usada para o login simples do painel administrativo)
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
 {
@@ -23,16 +22,16 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// Cache de respostas (usado em páginas que mudam pouco)
 builder.Services.AddResponseCaching();
 
 var app = builder.Build();
 
-// Cria o banco e tabelas automaticamente se não existirem
+// Cria as tabelas se não existirem e popula dados iniciais (só se as tabelas estiverem vazias)
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     db.Database.EnsureCreated();
+    DbInitializer.Seed(db);
 }
 
 if (!app.Environment.IsDevelopment())
