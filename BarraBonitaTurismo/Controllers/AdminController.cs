@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using BarraBonitaTurismo.Models;
 using BarraBonitaTurismo.Services;
 using BarraBonitaTurismo.Filters;
@@ -10,21 +9,22 @@ namespace BarraBonitaTurismo.Controllers
     {
         private readonly IDataService _dataService;
         private readonly IConfiguration _config;
+        private readonly SeedExporter _seedExporter;
 
-        public AdminController(IDataService dataService, IConfiguration config)
+        public AdminController(IDataService dataService, IConfiguration config, SeedExporter seedExporter)
         {
             _dataService = dataService;
             _config = config;
+            _seedExporter = seedExporter;
         }
 
-        // ───────────────────────────── LOGIN ─────────────────────────────
+        // ── LOGIN ────────────────────────────────────────────────────────
 
         [HttpGet]
         public IActionResult Login()
         {
             if (HttpContext.Session.GetString("AdminLogado") == "true")
                 return RedirectToAction(nameof(Dashboard));
-
             return View();
         }
 
@@ -51,7 +51,7 @@ namespace BarraBonitaTurismo.Controllers
             return RedirectToAction(nameof(Login));
         }
 
-        // ───────────────────────────── DASHBOARD ─────────────────────────────
+        // ── DASHBOARD ────────────────────────────────────────────────────
 
         [AdminAuthFilter]
         public IActionResult Dashboard()
@@ -63,174 +63,140 @@ namespace BarraBonitaTurismo.Controllers
             return View();
         }
 
-        // ───────────────────────────── ATRAÇÕES ─────────────────────────────
+        // ── ATRAÇÕES ─────────────────────────────────────────────────────
 
         [AdminAuthFilter]
         public IActionResult Attractions()
-        {
-            return View(_dataService.GetAttractions());
-        }
+            => View(_dataService.GetAttractions());
 
-        [AdminAuthFilter]
-        [HttpGet]
+        [AdminAuthFilter, HttpGet]
         public IActionResult AttractionForm(int? id)
         {
-            var attraction = id.HasValue ? _dataService.GetAttractionById(id.Value) : new Attraction();
-            if (id.HasValue && attraction == null) return NotFound();
-            return View(attraction);
+            var model = id.HasValue ? _dataService.GetAttractionById(id.Value) : new Attraction();
+            if (id.HasValue && model == null) return NotFound();
+            return View(model);
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult AttractionForm(Attraction model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            if (model.Id == 0)
-                _dataService.AddAttraction(model);
-            else
-                _dataService.UpdateAttraction(model);
-
+            if (!ModelState.IsValid) return View(model);
+            if (model.Id == 0) _dataService.AddAttraction(model);
+            else _dataService.UpdateAttraction(model);
+            _seedExporter.Export();
             TempData["Success"] = "Atração salva com sucesso!";
             return RedirectToAction(nameof(Attractions));
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult AttractionDelete(int id)
         {
             _dataService.DeleteAttraction(id);
+            _seedExporter.Export();
             TempData["Success"] = "Atração excluída com sucesso!";
             return RedirectToAction(nameof(Attractions));
         }
 
-        // ───────────────────────────── EVENTOS ─────────────────────────────
+        // ── EVENTOS ──────────────────────────────────────────────────────
 
         [AdminAuthFilter]
         public IActionResult Events()
-        {
-            return View(_dataService.GetEvents());
-        }
+            => View(_dataService.GetEvents());
 
-        [AdminAuthFilter]
-        [HttpGet]
+        [AdminAuthFilter, HttpGet]
         public IActionResult EventForm(int? id)
         {
-            var ev = id.HasValue ? _dataService.GetEventById(id.Value) : new Event { StartDate = DateTime.Today };
-            if (id.HasValue && ev == null) return NotFound();
-            return View(ev);
+            var model = id.HasValue ? _dataService.GetEventById(id.Value) : new Event { StartDate = DateTime.Today };
+            if (id.HasValue && model == null) return NotFound();
+            return View(model);
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult EventForm(Event model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            if (model.Id == 0)
-                _dataService.AddEvent(model);
-            else
-                _dataService.UpdateEvent(model);
-
+            if (!ModelState.IsValid) return View(model);
+            if (model.Id == 0) _dataService.AddEvent(model);
+            else _dataService.UpdateEvent(model);
+            _seedExporter.Export();
             TempData["Success"] = "Evento salvo com sucesso!";
             return RedirectToAction(nameof(Events));
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult EventDelete(int id)
         {
             _dataService.DeleteEvent(id);
+            _seedExporter.Export();
             TempData["Success"] = "Evento excluído com sucesso!";
             return RedirectToAction(nameof(Events));
         }
 
-        // ───────────────────────────── FAQ ─────────────────────────────
+        // ── FAQ ──────────────────────────────────────────────────────────
 
         [AdminAuthFilter]
         public IActionResult FAQs()
-        {
-            return View(_dataService.GetFAQs());
-        }
+            => View(_dataService.GetFAQs());
 
-        [AdminAuthFilter]
-        [HttpGet]
+        [AdminAuthFilter, HttpGet]
         public IActionResult FAQForm(int? id)
         {
-            var faq = id.HasValue ? _dataService.GetFAQById(id.Value) : new FAQ();
-            if (id.HasValue && faq == null) return NotFound();
-            return View(faq);
+            var model = id.HasValue ? _dataService.GetFAQById(id.Value) : new FAQ();
+            if (id.HasValue && model == null) return NotFound();
+            return View(model);
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult FAQForm(FAQ model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            if (model.Id == 0)
-                _dataService.AddFAQ(model);
-            else
-                _dataService.UpdateFAQ(model);
-
-            TempData["Success"] = "Pergunta frequente salva com sucesso!";
+            if (!ModelState.IsValid) return View(model);
+            if (model.Id == 0) _dataService.AddFAQ(model);
+            else _dataService.UpdateFAQ(model);
+            _seedExporter.Export();
+            TempData["Success"] = "Pergunta salva com sucesso!";
             return RedirectToAction(nameof(FAQs));
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult FAQDelete(int id)
         {
             _dataService.DeleteFAQ(id);
+            _seedExporter.Export();
             TempData["Success"] = "Pergunta excluída com sucesso!";
             return RedirectToAction(nameof(FAQs));
         }
 
-        // ───────────────────────────── GUIA ─────────────────────────────
+        // ── GUIA ─────────────────────────────────────────────────────────
 
         [AdminAuthFilter]
         public IActionResult GuideItems()
-        {
-            return View(_dataService.GetGuideItems());
-        }
+            => View(_dataService.GetGuideItems());
 
-        [AdminAuthFilter]
-        [HttpGet]
+        [AdminAuthFilter, HttpGet]
         public IActionResult GuideItemForm(int? id)
         {
-            var item = id.HasValue ? _dataService.GetGuideItemById(id.Value) : new GuideItem { Type = "Hospedagem", Rating = 5 };
-            if (id.HasValue && item == null) return NotFound();
-            return View(item);
+            var model = id.HasValue ? _dataService.GetGuideItemById(id.Value) : new GuideItem { Type = "Hospedagem", Rating = 5 };
+            if (id.HasValue && model == null) return NotFound();
+            return View(model);
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult GuideItemForm(GuideItem model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            if (model.Id == 0)
-                _dataService.AddGuideItem(model);
-            else
-                _dataService.UpdateGuideItem(model);
-
+            if (!ModelState.IsValid) return View(model);
+            if (model.Id == 0) _dataService.AddGuideItem(model);
+            else _dataService.UpdateGuideItem(model);
+            _seedExporter.Export();
             TempData["Success"] = "Item do guia salvo com sucesso!";
             return RedirectToAction(nameof(GuideItems));
         }
 
-        [AdminAuthFilter]
-        [HttpPost]
+        [AdminAuthFilter, HttpPost]
         public IActionResult GuideItemDelete(int id)
         {
             _dataService.DeleteGuideItem(id);
+            _seedExporter.Export();
             TempData["Success"] = "Item excluído com sucesso!";
             return RedirectToAction(nameof(GuideItems));
         }
-
-        // ───────────────────────────── (Mensagens removidas) ─────────────────────────────
     }
 }

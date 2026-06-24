@@ -13,6 +13,7 @@ builder.Services.AddControllersWithViews()
     .AddRazorRuntimeCompilation();
 
 builder.Services.AddScoped<IDataService, DataService>();
+builder.Services.AddScoped<SeedExporter>();
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>
