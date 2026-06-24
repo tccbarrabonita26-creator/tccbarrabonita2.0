@@ -11,3 +11,6 @@ dotnet add package Microsoft.AspNetCore.Mvc.ViewFeatures
 dotnet add package System.Text.Jsonla
 
 DROP DATABASE barrabonita_dev;
+
+DROP DATABASE IF EXISTS barrabonita;
+CREATE DATABASE barrabonita CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
