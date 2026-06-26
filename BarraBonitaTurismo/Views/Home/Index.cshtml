@@ -145,8 +145,10 @@
             {
                 <div class="attraction-card" data-category="@attraction.Category" data-id="@attraction.Id"
                      data-name="@attraction.Name.ToLower()" data-desc="@attraction.Description.ToLower()">
-                    <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
-                         onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
+                    <a href="/Home/AttractionDetail/@attraction.Id" tabindex="-1">
+                        <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
+                             onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
+                    </a>
                     <div class="attraction-content">
                         <h3 class="attraction-title">@attraction.Name</h3>
                         <p class="attraction-description">@(attraction.Description.Length > 100 ?
@@ -173,8 +175,10 @@
                 {
                     <div class="attraction-card" data-category="@attraction.Category" data-id="@attraction.Id"
                          data-name="@attraction.Name.ToLower()" data-desc="@attraction.Description.ToLower()">
-                        <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
-                             onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
+                        <a href="/Home/AttractionDetail/@attraction.Id" tabindex="-1">
+                            <img class="attraction-image" src="@attraction.ImageUrl" alt="@attraction.Name"
+                                 onerror="this.src='https://picsum.photos/id/@(attraction.Id + 10)/400/300'">
+                        </a>
                         <div class="attraction-content">
                             <h3 class="attraction-title">@attraction.Name</h3>
                             <p class="attraction-description">@(attraction.Description.Length > 100 ?
